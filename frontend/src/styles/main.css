@@ -1,0 +1,149 @@
+/* ============================================
+   GreenPilot - Global Styles
+   Material Design Modernisation
+   ============================================ */
+
+/* Custom Properties */
+:root {
+  --eco-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --eco-transition-standard: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --eco-transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  --eco-shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --eco-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.1);
+  --eco-shadow-card: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* Font smoothing */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Selection */
+::selection {
+  background: rgba(46, 125, 50, 0.2);
+  color: inherit;
+}
+
+/* Focus visible - accessibility */
+*:focus-visible {
+  outline: 2px solid #2E7D32;
+  outline-offset: 2px;
+}
+
+/* ============================================
+   Card hover lift
+   ============================================ */
+.v-card--hover {
+  transition: transform var(--eco-transition-standard),
+              box-shadow var(--eco-transition-standard);
+  cursor: pointer;
+}
+
+.v-card--hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--eco-shadow-hover) !important;
+}
+
+/* ============================================
+   Buttons - sentence case
+   ============================================ */
+.v-btn {
+  text-transform: none;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: all var(--eco-transition-fast);
+}
+
+/* ============================================
+   Page transitions
+   ============================================ */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity var(--eco-transition-standard),
+              transform var(--eco-transition-standard);
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+/* ============================================
+   Dialog backdrop blur
+   ============================================ */
+.v-overlay__scrim {
+  backdrop-filter: blur(4px);
+}
+
+/* ============================================
+   Data tables
+   ============================================ */
+.v-data-table .v-data-table-header th {
+  text-transform: uppercase;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em;
+}
+
+.v-data-table tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.015);
+}
+
+.v-data-table tbody tr:hover {
+  background-color: rgba(46, 125, 50, 0.04) !important;
+}
+
+/* ============================================
+   Tabs
+   ============================================ */
+.v-tabs {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* ============================================
+   Input focus glow
+   ============================================ */
+.v-field--focused {
+  box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.15);
+}
+
+/* ============================================
+   Sidebar active item
+   ============================================ */
+.v-navigation-drawer .v-list-item--active {
+  background: rgba(255, 255, 255, 0.15) !important;
+  font-weight: 600;
+}
+
+/* ============================================
+   Scrollbars
+   ============================================ */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
