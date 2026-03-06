@@ -1,5 +1,5 @@
 # =============================================================================
-# Stage 1: Build frontend assets
+# Stage 1: Build SPA frontend (Vue/Vuetify)
 # =============================================================================
 FROM node:20-alpine AS frontend-build
 
@@ -9,6 +9,20 @@ COPY frontend/package.json frontend/package-lock.json ./
 RUN npm ci
 
 COPY frontend/ ./
+RUN npm run build
+
+# =============================================================================
+# Stage 2: Build vitrine assets (Laravel Vite/Tailwind)
+# =============================================================================
+FROM node:20-alpine AS vitrine-build
+
+WORKDIR /build
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY vite.config.js ./
+COPY resources/ ./resources/
 RUN npm run build
 
 # =============================================================================
@@ -58,6 +72,9 @@ COPY . /var/www
 
 # Copy built frontend assets from stage 1
 COPY --from=frontend-build /build/dist /var/www/frontend/dist
+
+# Copy built vitrine assets from stage 2
+COPY --from=vitrine-build /build/public/build /var/www/public/build
 
 # Remove dev files
 RUN rm -rf frontend/node_modules frontend/src tests .git .github

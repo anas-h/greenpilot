@@ -1,7 +1,7 @@
 services:
   # Traefik reverse proxy + SSL
   traefik:
-    image: traefik:v3.0
+    image: traefik:v2.11
     container_name: greenpilot-traefik
     restart: always
     ports:
@@ -26,6 +26,7 @@ services:
       - PHP_MEMORY_LIMIT=256M
       - PHP_MAX_EXECUTION_TIME=60
     volumes:
+      - ./.env:/var/www/.env:ro
       - app-storage:/var/www/storage
       - app-public:/var/www/public
       - app-frontend:/var/www/frontend/dist
@@ -117,6 +118,8 @@ services:
     restart: always
     working_dir: /var/www
     command: php artisan queue:work redis --sleep=3 --tries=3 --max-time=3600
+    volumes:
+      - ./.env:/var/www/.env:ro
     depends_on:
       postgres:
         condition: service_healthy
@@ -138,6 +141,8 @@ services:
     restart: always
     working_dir: /var/www
     command: php artisan schedule:work
+    volumes:
+      - ./.env:/var/www/.env:ro
     depends_on:
       postgres:
         condition: service_healthy
