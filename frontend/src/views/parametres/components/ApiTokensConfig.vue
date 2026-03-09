@@ -24,41 +24,43 @@
     </v-row>
 
     <!-- Token List -->
-    <v-data-table
-      :headers="headers"
-      :items="tokens"
-      :loading="loading"
-      density="compact"
-    >
-      <template #item.created_at="{ item }">
-        {{ new Date(item.created_at).toLocaleDateString('fr-FR') }}
-      </template>
-      <template #item.last_used_at="{ item }">
-        {{ item.last_used_at ? new Date(item.last_used_at).toLocaleDateString('fr-FR') : 'Jamais' }}
-      </template>
-      <template #item.expires_at="{ item }">
-        <span
-          v-if="item.expires_at"
-          :class="isExpired(item.expires_at) ? 'text-error' : ''"
-        >
-          {{ new Date(item.expires_at).toLocaleDateString('fr-FR') }}
-        </span>
-        <span
-          v-else
-          class="text-grey"
-        >Jamais</span>
-      </template>
-      <template #item.actions="{ item }">
-        <v-btn
-          icon="mdi-delete"
-          size="x-small"
-          variant="text"
-          color="error"
-          title="Revoquer"
-          @click="confirmRevoke(item)"
-        />
-      </template>
-    </v-data-table>
+    <div style="overflow-x: auto">
+      <v-data-table
+        :headers="headers"
+        :items="tokens"
+        :loading="loading"
+        density="compact"
+      >
+        <template #item.created_at="{ item }">
+          {{ new Date(item.created_at).toLocaleDateString('fr-FR') }}
+        </template>
+        <template #item.last_used_at="{ item }">
+          {{ item.last_used_at ? new Date(item.last_used_at).toLocaleDateString('fr-FR') : 'Jamais' }}
+        </template>
+        <template #item.expires_at="{ item }">
+          <span
+            v-if="item.expires_at"
+            :class="isExpired(item.expires_at) ? 'text-error' : ''"
+          >
+            {{ new Date(item.expires_at).toLocaleDateString('fr-FR') }}
+          </span>
+          <span
+            v-else
+            class="text-grey"
+          >Jamais</span>
+        </template>
+        <template #item.actions="{ item }">
+          <v-btn
+            icon="mdi-delete"
+            size="x-small"
+            variant="text"
+            color="error"
+            title="Revoquer"
+            @click="confirmRevoke(item)"
+          />
+        </template>
+      </v-data-table>
+    </div>
 
     <!-- Usage Instructions -->
     <v-expansion-panels
@@ -81,6 +83,7 @@
             <h3 class="text-subtitle-1 font-weight-bold mb-2">
               Endpoints disponibles
             </h3>
+            <div style="overflow-x: auto">
             <v-table
               density="compact"
               class="mb-4"
@@ -179,6 +182,7 @@
                 </tr>
               </tbody>
             </v-table>
+            </div>
 
             <h3 class="text-subtitle-1 font-weight-bold mb-2">
               Limites

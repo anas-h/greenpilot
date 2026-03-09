@@ -122,7 +122,7 @@
 
           <!-- Legend -->
           <v-divider class="my-4" />
-          <div class="d-flex ga-4 text-caption">
+          <div class="d-flex flex-wrap ga-4 text-caption">
             <div class="d-flex align-center ga-1">
               <v-icon
                 size="x-small"

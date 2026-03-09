@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="d-flex align-center mb-6">
+    <div class="d-flex flex-wrap align-center mb-6">
       <h1 class="text-h4">
         Entreprises
       </h1>
@@ -60,61 +60,64 @@
     </v-card>
 
     <v-card>
-      <v-data-table
-        :headers="headers"
-        :items="adminStore.entreprises"
-        :loading="adminStore.loading"
-        density="comfortable"
-        class="cursor-pointer"
-        @click:row="(_, { item }) => $router.push(`/admin/entreprises/${item.id}`)"
-      >
-        <template #item.plan="{ item }">
-          <v-chip
-            size="small"
-            :color="planColor(item.plan)"
-          >
-            {{ item.plan }}
-          </v-chip>
-        </template>
-        <template #item.actif="{ item }">
-          <v-icon :color="item.actif ? 'success' : 'error'">
-            {{ item.actif ? 'mdi-check-circle' : 'mdi-close-circle' }}
-          </v-icon>
-        </template>
-        <template #item.archived_at="{ item }">
-          <v-chip
-            v-if="item.archived_at"
-            size="small"
-            color="grey"
-          >
-            Archivee
-          </v-chip>
-        </template>
-        <template #item.actions="{ item }">
-          <v-btn
-            size="small"
-            variant="text"
-            :color="item.actif ? 'error' : 'success'"
-            @click.stop="toggleEntreprise(item.id)"
-          >
-            {{ item.actif ? 'Desactiver' : 'Activer' }}
-          </v-btn>
-          <v-btn
-            size="small"
-            variant="text"
-            :color="item.archived_at ? 'info' : 'grey'"
-            @click.stop="toggleArchiveEntreprise(item.id)"
-          >
-            {{ item.archived_at ? 'Desarchiver' : 'Archiver' }}
-          </v-btn>
-        </template>
-      </v-data-table>
+      <div style="overflow-x: auto">
+        <v-data-table
+          :headers="headers"
+          :items="adminStore.entreprises"
+          :loading="adminStore.loading"
+          density="comfortable"
+          class="cursor-pointer"
+          @click:row="(_, { item }) => $router.push(`/admin/entreprises/${item.id}`)"
+        >
+          <template #item.plan="{ item }">
+            <v-chip
+              size="small"
+              :color="planColor(item.plan)"
+            >
+              {{ item.plan }}
+            </v-chip>
+          </template>
+          <template #item.actif="{ item }">
+            <v-icon :color="item.actif ? 'success' : 'error'">
+              {{ item.actif ? 'mdi-check-circle' : 'mdi-close-circle' }}
+            </v-icon>
+          </template>
+          <template #item.archived_at="{ item }">
+            <v-chip
+              v-if="item.archived_at"
+              size="small"
+              color="grey"
+            >
+              Archivee
+            </v-chip>
+          </template>
+          <template #item.actions="{ item }">
+            <v-btn
+              size="small"
+              variant="text"
+              :color="item.actif ? 'error' : 'success'"
+              @click.stop="toggleEntreprise(item.id)"
+            >
+              {{ item.actif ? 'Desactiver' : 'Activer' }}
+            </v-btn>
+            <v-btn
+              size="small"
+              variant="text"
+              :color="item.archived_at ? 'info' : 'grey'"
+              @click.stop="toggleArchiveEntreprise(item.id)"
+            >
+              {{ item.archived_at ? 'Desarchiver' : 'Archiver' }}
+            </v-btn>
+          </template>
+        </v-data-table>
+      </div>
     </v-card>
 
     <!-- DIALOG CREATION ENTREPRISE -->
     <v-dialog
       v-model="createDialog"
       max-width="600"
+      :fullscreen="mobile"
     >
       <v-card>
         <v-card-title>Nouvelle entreprise</v-card-title>
@@ -138,13 +141,19 @@
             label="Adresse"
           />
           <v-row dense>
-            <v-col cols="4">
+            <v-col
+              cols="12"
+              sm="4"
+            >
               <v-text-field
                 v-model="createForm.code_postal"
                 label="Code postal"
               />
             </v-col>
-            <v-col cols="8">
+            <v-col
+              cols="12"
+              sm="8"
+            >
               <v-text-field
                 v-model="createForm.ville"
                 label="Ville"
@@ -167,7 +176,10 @@
             :items="['gratuit', 'standard', 'premium']"
           />
           <v-row dense>
-            <v-col cols="6">
+            <v-col
+              cols="12"
+              sm="6"
+            >
               <v-text-field
                 v-model.number="createForm.max_garages"
                 label="Max garages"
@@ -175,7 +187,10 @@
                 min="1"
               />
             </v-col>
-            <v-col cols="6">
+            <v-col
+              cols="12"
+              sm="6"
+            >
               <v-text-field
                 v-model.number="createForm.max_users"
                 label="Max utilisateurs"
@@ -209,9 +224,11 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useDisplay } from 'vuetify'
 import { useAdminStore } from '../../stores/admin'
 import { useUiStore } from '../../stores/ui'
 
+const { mobile } = useDisplay()
 const router = useRouter()
 const adminStore = useAdminStore()
 const uiStore = useUiStore()

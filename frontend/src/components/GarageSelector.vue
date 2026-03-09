@@ -8,7 +8,7 @@
     density="compact"
     variant="outlined"
     hide-details
-    style="max-width: 280px; min-width: 120px"
+    style="max-width: min(280px, 45vw); min-width: 120px"
     prepend-inner-icon="mdi-domain"
     @update:model-value="garageStore.setCurrentGarage($event)"
   />

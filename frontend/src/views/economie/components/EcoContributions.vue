@@ -130,6 +130,7 @@
     <v-dialog
       v-model="dialog"
       max-width="600"
+      :fullscreen="mobile"
     >
       <v-card>
         <v-card-title>{{ editingId ? 'Modifier' : 'Nouvelle' }} eco-contribution</v-card-title>
@@ -147,7 +148,7 @@
                   :disabled="!!editingId"
                 />
               </v-col>
-              <v-col cols="6">
+              <v-col cols="12" sm="6">
                 <v-select
                   v-model="form.annee"
                   :items="annees"
@@ -156,7 +157,7 @@
                   :disabled="!!editingId"
                 />
               </v-col>
-              <v-col cols="6">
+              <v-col cols="12" sm="6">
                 <v-select
                   v-model="form.trimestre"
                   :items="[1, 2, 3, 4]"
@@ -165,7 +166,7 @@
                   :disabled="!!editingId"
                 />
               </v-col>
-              <v-col cols="6">
+              <v-col cols="12" sm="6">
                 <v-text-field
                   v-model.number="form.montant"
                   label="Montant (EUR) *"
@@ -175,7 +176,7 @@
                   :rules="[v => v >= 0 || 'Montant invalide']"
                 />
               </v-col>
-              <v-col cols="6">
+              <v-col cols="12" sm="6">
                 <v-text-field
                   v-model.number="form.quantite_declaree"
                   label="Quantite declaree *"
@@ -184,7 +185,7 @@
                   step="0.01"
                 />
               </v-col>
-              <v-col cols="6">
+              <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="form.unite"
                   label="Unite *"
@@ -221,8 +222,10 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useDisplay } from 'vuetify'
 import api from '../../../services/api'
 
+const { mobile } = useDisplay()
 const loading = ref(false)
 const saving = ref(false)
 const dialog = ref(false)

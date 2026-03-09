@@ -2,6 +2,7 @@
   <v-dialog
     :model-value="modelValue"
     max-width="600"
+    :fullscreen="mobile"
     persistent
     @update:model-value="$emit('update:modelValue', $event)"
   >
@@ -53,7 +54,10 @@
           </v-select>
 
           <v-row>
-            <v-col cols="6">
+            <v-col
+              cols="12"
+              sm="6"
+            >
               <v-text-field
                 v-model.number="form.capacite"
                 label="Capacite"
@@ -63,7 +67,10 @@
                 :rules="[rules.required, rules.positiveNumber]"
               />
             </v-col>
-            <v-col cols="6">
+            <v-col
+              cols="12"
+              sm="6"
+            >
               <v-select
                 v-model="form.unite"
                 label="Unite"
@@ -129,6 +136,7 @@
 
 <script setup>
 import { ref, computed, watch, nextTick } from 'vue'
+import { useDisplay } from 'vuetify'
 import { useDechetsStore } from '../../../stores/dechets'
 import { useFormDirty } from '../../../composables/useFormDirty'
 import ConfirmDialog from '../../../components/ConfirmDialog.vue'
@@ -148,6 +156,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'saved'])
 
+const { mobile } = useDisplay()
 const dechetsStore = useDechetsStore()
 const formRef = ref(null)
 const loading = ref(false)

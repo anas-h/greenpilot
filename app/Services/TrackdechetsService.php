@@ -49,6 +49,7 @@ class TrackdechetsService
         $response = Http::withHeaders([
             'Authorization' => 'Bearer '.$this->apiToken,
             'Content-Type' => 'application/json',
+            'apollo-require-preflight' => 'true',
         ])->post($this->baseUrl, $body);
 
         if ($response->failed()) {
@@ -117,7 +118,7 @@ class TrackdechetsService
                 'quantityType' => 'ESTIMATED',
                 'isDangerous' => str_contains($bsd->code_dechet, '*'),
                 'isSubjectToADR' => false,
-                'consistences' => ['LIQUID'],
+                'consistences' => ['LIQUIDE'],
             ],
         ];
 

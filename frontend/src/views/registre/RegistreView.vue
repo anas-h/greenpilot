@@ -46,7 +46,8 @@
       <v-card-text>
         <v-row dense>
           <v-col
-            cols="12"
+            cols="6"
+            sm="6"
             md="2"
           >
             <v-text-field
@@ -57,7 +58,8 @@
             />
           </v-col>
           <v-col
-            cols="12"
+            cols="6"
+            sm="6"
             md="2"
           >
             <v-text-field
@@ -111,7 +113,7 @@
       </v-card-text>
     </v-card>
 
-    <v-card>
+    <v-card style="overflow-x: auto">
       <v-data-table
         :headers="headers"
         :items="registre"
@@ -190,7 +192,7 @@
             <span class="text-body-2 text-grey">
               {{ registre.length }} entree(s) dans le registre
             </span>
-            <div class="d-flex ga-4">
+            <div class="d-flex flex-wrap ga-2 ga-sm-4">
               <span class="text-body-2">
                 Total DD: <strong class="text-error">{{ formatNumber(totalDD) }} t</strong>
               </span>

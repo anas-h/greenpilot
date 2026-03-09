@@ -724,6 +724,7 @@
     <v-dialog
       v-model="previewDialog"
       max-width="520"
+      :fullscreen="mobile"
       persistent
     >
       <v-card rounded="lg">
@@ -860,6 +861,7 @@
     <v-dialog
       v-model="limitsErrorDialog"
       max-width="480"
+      :fullscreen="mobile"
     >
       <v-card rounded="lg">
         <v-card-title class="d-flex align-center pa-5 pb-3">
@@ -955,10 +957,12 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useDisplay } from 'vuetify'
 import { useSubscriptionStore } from '../../stores/subscription'
 import { useUiStore } from '../../stores/ui'
 import api from '../../services/api'
 
+const { mobile } = useDisplay()
 const subscriptionStore = useSubscriptionStore()
 const uiStore = useUiStore()
 

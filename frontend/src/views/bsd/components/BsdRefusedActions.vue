@@ -205,7 +205,7 @@
         avec les informations corrigees, puis organisez un nouvel enlevement.
       </div>
 
-      <div class="d-flex ga-3">
+      <div class="d-flex flex-wrap ga-3">
         <v-btn
           color="primary"
           prepend-icon="mdi-content-copy"

@@ -8,6 +8,7 @@
       <!-- Type BSD -->
       <v-col
         cols="12"
+        sm="6"
         md="4"
       >
         <v-select
@@ -22,6 +23,7 @@
       <!-- Type dechet -->
       <v-col
         cols="12"
+        sm="6"
         md="4"
       >
         <v-select
@@ -39,6 +41,7 @@
       <!-- Code dechet -->
       <v-col
         cols="12"
+        sm="6"
         md="4"
       >
         <v-text-field
@@ -63,6 +66,7 @@
       <!-- Quantite -->
       <v-col
         cols="12"
+        sm="4"
         md="4"
       >
         <v-text-field
@@ -78,6 +82,7 @@
       <!-- Unite -->
       <v-col
         cols="12"
+        sm="4"
         md="4"
       >
         <v-select
@@ -91,6 +96,7 @@
       <!-- Consistance -->
       <v-col
         cols="12"
+        sm="4"
         md="4"
       >
         <v-select

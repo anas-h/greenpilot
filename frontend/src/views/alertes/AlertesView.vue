@@ -7,7 +7,7 @@
           cols="12"
           md="6"
         >
-          <h1 class="text-h4 font-weight-bold">
+          <h1 class="text-h5 text-sm-h4 font-weight-bold">
             Alertes
           </h1>
           <p class="text-subtitle-1 text-medium-emphasis">
@@ -130,6 +130,7 @@
           <v-row dense>
             <v-col
               cols="12"
+              sm="6"
               md="3"
             >
               <v-select
@@ -146,6 +147,7 @@
             </v-col>
             <v-col
               cols="12"
+              sm="6"
               md="3"
             >
               <v-select
@@ -161,7 +163,8 @@
               />
             </v-col>
             <v-col
-              cols="12"
+              cols="6"
+              sm="6"
               md="2"
             >
               <v-select
@@ -177,7 +180,8 @@
               />
             </v-col>
             <v-col
-              cols="12"
+              cols="6"
+              sm="6"
               md="2"
             >
               <v-select
@@ -240,7 +244,7 @@
                 />
               </template>
 
-              <v-list-item-title class="d-flex align-center ga-2 mb-1">
+              <v-list-item-title class="d-flex flex-wrap align-center ga-2 mb-1">
                 <span :class="{ 'font-weight-bold': !alerte.lue }">
                   {{ alerte.titre }}
                 </span>
@@ -338,7 +342,7 @@
           <v-pagination
             v-model="currentPage"
             :length="Math.ceil(alertesStore.totalAlertes / 50)"
-            :total-visible="5"
+            :total-visible="3"
             @update:model-value="onPageChange"
           />
         </v-card-actions>

@@ -2,6 +2,7 @@
   <v-dialog
     :model-value="modelValue"
     max-width="400"
+    :fullscreen="mobile"
     @update:model-value="$emit('update:modelValue', $event)"
   >
     <v-card>
@@ -29,6 +30,10 @@
 </template>
 
 <script setup>
+import { useDisplay } from 'vuetify'
+
+const { mobile } = useDisplay()
+
 defineProps({
   modelValue: Boolean,
   title: { type: String, default: 'Confirmer' },

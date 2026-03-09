@@ -7,7 +7,7 @@
         <TrialBanner />
         <v-container
           fluid
-          class="pa-6 pa-md-8"
+          class="pa-3 pa-sm-4 pa-md-6 pa-lg-8"
           style="max-width: 1600px"
         >
           <router-view v-slot="{ Component }">

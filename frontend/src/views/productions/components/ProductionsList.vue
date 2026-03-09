@@ -4,7 +4,8 @@
       <v-card-text>
         <v-row dense>
           <v-col
-            cols="12"
+            cols="6"
+            sm="6"
             md="3"
           >
             <v-text-field
@@ -15,7 +16,8 @@
             />
           </v-col>
           <v-col
-            cols="12"
+            cols="6"
+            sm="6"
             md="3"
           >
             <v-text-field
@@ -62,7 +64,7 @@
       class="mb-2"
     />
 
-    <v-card>
+    <v-card style="overflow-x: auto">
       <v-card-title
         v-if="selected.length > 0"
         class="d-flex align-center bg-primary-lighten-5 pa-3"

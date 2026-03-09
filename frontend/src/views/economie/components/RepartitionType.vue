@@ -1,5 +1,5 @@
 <template>
-  <div style="max-width: 500px; width: 100%; margin: 0 auto">
+  <div style="max-width: min(500px, 100%); width: 100%; margin: 0 auto">
     <Doughnut
       v-if="chartData"
       :data="chartData"

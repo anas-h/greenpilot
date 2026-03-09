@@ -166,6 +166,7 @@
     <v-dialog
       v-model="detailDialogOpen"
       max-width="700"
+      :fullscreen="mobile"
       scrollable
     >
       <v-card v-if="detailConteneur">
@@ -230,6 +231,7 @@
     <v-dialog
       v-model="showScanner"
       max-width="500"
+      :fullscreen="mobile"
     >
       <v-card>
         <v-card-title class="d-flex align-center justify-space-between">
@@ -251,6 +253,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useDisplay } from 'vuetify'
 import { useDechetsStore } from '../../stores/dechets'
 import { useUiStore } from '../../stores/ui'
 import ConteneurGrid from './components/ConteneurGrid.vue'
@@ -260,6 +263,7 @@ import ConteneurHistorique from './components/ConteneurHistorique.vue'
 import QrScanner from '../../components/QrScanner.vue'
 import ConfirmDialog from '../../components/ConfirmDialog.vue'
 
+const { mobile } = useDisplay()
 const dechetsStore = useDechetsStore()
 const uiStore = useUiStore()
 

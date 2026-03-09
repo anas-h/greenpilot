@@ -192,7 +192,7 @@ onMounted(fetchComparatif)
 .comparatif-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 600px;
+  min-width: 400px;
 }
 
 .comparatif-table th,
@@ -205,7 +205,7 @@ onMounted(fetchComparatif)
   background-color: #2E7D32;
   color: white;
   font-weight: bold;
-  min-width: 200px;
+  min-width: 140px;
   position: sticky;
   left: 0;
   z-index: 1;
@@ -216,7 +216,7 @@ onMounted(fetchComparatif)
   color: white;
   font-weight: bold;
   text-align: center;
-  min-width: 150px;
+  min-width: 120px;
 }
 
 .type-cell {

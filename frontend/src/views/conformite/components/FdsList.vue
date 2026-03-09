@@ -9,7 +9,7 @@
       density="compact"
       variant="outlined"
       class="mb-4"
-      style="max-width: 400px"
+      style="max-width: min(400px, 100%)"
     />
 
     <!-- Data table -->

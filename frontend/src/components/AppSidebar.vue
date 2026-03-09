@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer
     v-model="uiStore.sidebarOpen"
-    :width="280"
+    :width="mobile ? 260 : 280"
     theme="dark"
     :temporary="mobile"
     class="eco-sidebar"

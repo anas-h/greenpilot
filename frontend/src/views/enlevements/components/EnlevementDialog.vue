@@ -37,7 +37,7 @@
           <v-row dense>
             <v-col
               cols="12"
-              md="6"
+              sm="6"
             >
               <v-select
                 v-model="form.collecteur_id"
@@ -65,6 +65,7 @@
 
             <v-col
               cols="12"
+              sm="6"
               md="3"
             >
               <v-text-field
@@ -77,6 +78,7 @@
 
             <v-col
               cols="12"
+              sm="6"
               md="3"
             >
               <v-select

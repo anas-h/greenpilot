@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card style="overflow-x: auto">
     <v-data-table-server
       v-model:items-per-page="itemsPerPage"
       v-model:page="page"

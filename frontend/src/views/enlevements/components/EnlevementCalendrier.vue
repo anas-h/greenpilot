@@ -235,9 +235,16 @@ defineExpose({ fetchCalendrier })
 
 .calendar-cell {
   background-color: white;
-  min-height: 90px;
+  min-height: 50px;
   padding: 4px;
 }
+
+@media (min-width: 600px) {
+  .calendar-cell {
+    min-height: 90px;
+  }
+}
+
 
 .calendar-cell.other-month {
   background-color: #fafafa;
@@ -277,6 +284,15 @@ defineExpose({ fetchCalendrier })
   align-items: center;
   overflow: hidden;
   white-space: nowrap;
+}
+
+@media (max-width: 599px) {
+  .event-chip span {
+    display: none;
+  }
+  .event-chip .mr-1 {
+    margin-right: 0 !important;
+  }
 }
 
 .event-chip:hover {

@@ -702,7 +702,7 @@ onMounted(async () => {
 
 .donut-container {
   position: relative;
-  max-width: 200px;
+  max-width: min(200px, 50vw);
   margin: 0 auto;
 }
 

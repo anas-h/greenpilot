@@ -22,13 +22,19 @@
           label="Adresse"
         />
         <v-row dense>
-          <v-col cols="4">
+          <v-col
+            cols="12"
+            sm="4"
+          >
             <v-text-field
               v-model="form.code_postal"
               label="Code postal"
             />
           </v-col>
-          <v-col cols="8">
+          <v-col
+            cols="12"
+            sm="8"
+          >
             <v-text-field
               v-model="form.ville"
               label="Ville"

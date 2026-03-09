@@ -50,7 +50,7 @@
           <!-- Nom produit -->
           <v-col
             cols="12"
-            md="6"
+            sm="6"
           >
             <v-text-field
               v-model="form.nom_produit"
@@ -63,7 +63,7 @@
           <!-- Fournisseur -->
           <v-col
             cols="12"
-            md="6"
+            sm="6"
           >
             <v-text-field
               v-model="form.fournisseur"
@@ -75,7 +75,7 @@
           <!-- Numero FDS -->
           <v-col
             cols="12"
-            md="4"
+            sm="4"
           >
             <v-text-field
               v-model="form.numero_fds"
@@ -87,7 +87,7 @@
           <!-- Version -->
           <v-col
             cols="12"
-            md="4"
+            sm="4"
           >
             <v-text-field
               v-model="form.version"
@@ -100,7 +100,7 @@
           <!-- Date edition -->
           <v-col
             cols="12"
-            md="4"
+            sm="4"
           >
             <v-text-field
               v-model="form.date_edition"
@@ -113,7 +113,7 @@
           <!-- Date expiration -->
           <v-col
             cols="12"
-            md="6"
+            sm="6"
           >
             <v-text-field
               v-model="form.date_expiration"
@@ -127,7 +127,7 @@
           <!-- File upload -->
           <v-col
             cols="12"
-            md="6"
+            sm="6"
           >
             <v-file-input
               v-model="selectedFile"

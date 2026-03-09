@@ -17,7 +17,7 @@
         <v-col
           cols="12"
           md="6"
-          class="d-flex justify-end align-center"
+          class="d-flex flex-wrap justify-end align-center"
         >
           <v-btn
             variant="tonal"
@@ -174,6 +174,7 @@
       <v-dialog
         v-model="showUploadDialog"
         max-width="700"
+        :fullscreen="mobile"
         persistent
       >
         <FdsUpload
@@ -188,11 +189,13 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useDisplay } from 'vuetify'
 import api from '@/services/api'
 import ScoreConformite from './components/ScoreConformite.vue'
 import FdsList from './components/FdsList.vue'
 import FdsUpload from './components/FdsUpload.vue'
 
+const { mobile } = useDisplay()
 const activeTab = ref('fds')
 const scoreData = ref(null)
 const loadingScore = ref(false)

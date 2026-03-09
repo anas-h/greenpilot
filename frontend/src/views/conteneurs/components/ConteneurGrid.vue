@@ -97,8 +97,11 @@
     </v-row>
 
     <!-- List view -->
-    <v-table
+    <div
       v-else
+      style="overflow-x: auto"
+    >
+    <v-table
       hover
     >
       <thead>
@@ -140,7 +143,7 @@
               {{ conteneur.type_dechet?.denomination || '-' }}
             </v-chip>
           </td>
-          <td style="min-width: 150px;">
+          <td style="min-width: 120px;">
             <ConteneurJauge
               :niveau="Number(conteneur.niveau_actuel)"
               :capacite="Number(conteneur.capacite)"
@@ -179,6 +182,7 @@
         </tr>
       </tbody>
     </v-table>
+    </div>
   </div>
 </template>
 

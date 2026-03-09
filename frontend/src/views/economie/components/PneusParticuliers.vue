@@ -57,12 +57,13 @@
     </v-row>
 
     <!-- Data Table -->
-    <v-data-table
-      :headers="headers"
-      :items="prises"
-      :loading="loading"
-      density="compact"
-    >
+    <div style="overflow-x: auto">
+      <v-data-table
+        :headers="headers"
+        :items="prises"
+        :loading="loading"
+        density="compact"
+      >
       <template #item.types_pneus="{ item }">
         <span
           v-for="(tp, i) in item.types_pneus"
@@ -75,37 +76,51 @@
         {{ new Date(item.date_prise_en_charge).toLocaleDateString('fr-FR') }}
       </template>
     </v-data-table>
+    </div>
 
     <!-- Dialog -->
     <v-dialog
       v-model="dialog"
       max-width="600"
+      :fullscreen="mobile"
     >
       <v-card>
         <v-card-title>Nouvelle prise en charge pneus</v-card-title>
         <v-card-text>
           <v-form ref="formRef">
             <v-row>
-              <v-col cols="6">
+              <v-col
+                cols="12"
+                sm="6"
+              >
                 <v-text-field
                   v-model="form.nom_particulier"
                   label="Nom *"
                   :rules="[v => !!v || 'Requis']"
                 />
               </v-col>
-              <v-col cols="6">
+              <v-col
+                cols="12"
+                sm="6"
+              >
                 <v-text-field
                   v-model="form.prenom_particulier"
                   label="Prenom"
                 />
               </v-col>
-              <v-col cols="6">
+              <v-col
+                cols="12"
+                sm="6"
+              >
                 <v-text-field
                   v-model="form.telephone"
                   label="Telephone"
                 />
               </v-col>
-              <v-col cols="6">
+              <v-col
+                cols="12"
+                sm="6"
+              >
                 <v-text-field
                   v-model="form.date_prise_en_charge"
                   label="Date"
@@ -123,7 +138,10 @@
               :key="index"
               align="center"
             >
-              <v-col cols="5">
+              <v-col
+                cols="12"
+                sm="5"
+              >
                 <v-select
                   v-model="tp.type"
                   :items="typesPneus"
@@ -133,7 +151,10 @@
                   density="compact"
                 />
               </v-col>
-              <v-col cols="4">
+              <v-col
+                cols="12"
+                sm="4"
+              >
                 <v-text-field
                   v-model.number="tp.quantite"
                   label="Quantite"
@@ -143,7 +164,10 @@
                   density="compact"
                 />
               </v-col>
-              <v-col cols="3">
+              <v-col
+                cols="12"
+                sm="3"
+              >
                 <v-btn
                   v-if="form.types_pneus.length > 1"
                   icon="mdi-delete"
@@ -200,8 +224,10 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useDisplay } from 'vuetify'
 import api from '../../../services/api'
 
+const { mobile } = useDisplay()
 const loading = ref(false)
 const saving = ref(false)
 const dialog = ref(false)

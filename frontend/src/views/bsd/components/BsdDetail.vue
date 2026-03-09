@@ -584,9 +584,14 @@ watch(() => props.bsdId, () => {
 
 <style scoped>
 .bsd-detail {
-  position: sticky;
-  top: 80px;
-  max-height: calc(100vh - 100px);
   overflow-y: auto;
+}
+
+@media (min-width: 960px) {
+  .bsd-detail {
+    position: sticky;
+    top: 80px;
+    max-height: calc(100vh - 100px);
+  }
 }
 </style>

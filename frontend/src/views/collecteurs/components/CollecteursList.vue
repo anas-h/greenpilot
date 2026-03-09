@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card style="overflow-x: auto">
     <v-data-table
       :headers="headers"
       :items="collecteurs"

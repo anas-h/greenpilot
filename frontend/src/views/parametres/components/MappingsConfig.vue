@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="d-flex align-center mb-4">
+    <div class="d-flex flex-wrap align-center mb-4">
       <h3 class="text-h6">
         Mappings operations
       </h3>
@@ -13,6 +13,7 @@
         Ajouter
       </v-btn>
     </div>
+    <div style="overflow-x: auto">
     <v-data-table
       :headers="headers"
       :items="mappings"
@@ -54,9 +55,11 @@
         </v-btn>
       </template>
     </v-data-table>
+    </div>
     <v-dialog
       v-model="dialog"
       max-width="500"
+      :fullscreen="mobile"
     >
       <v-card>
         <v-card-title>{{ editing ? 'Modifier' : 'Ajouter' }} un mapping</v-card-title>
@@ -114,10 +117,12 @@
 </template>
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
+import { useDisplay } from 'vuetify'
 import { useUiStore } from '../../../stores/ui'
 import api from '../../../services/api'
 import ConfirmDialog from '../../../components/ConfirmDialog.vue'
 
+const { mobile } = useDisplay()
 const uiStore = useUiStore()
 const mappings = ref([])
 const typesDechets = ref([])

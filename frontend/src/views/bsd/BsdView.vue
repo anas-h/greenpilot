@@ -41,6 +41,7 @@
           <v-row dense>
             <v-col
               cols="12"
+              sm="6"
               md="3"
             >
               <v-select
@@ -56,7 +57,8 @@
               />
             </v-col>
             <v-col
-              cols="12"
+              cols="6"
+              sm="6"
               md="2"
             >
               <v-select
@@ -69,7 +71,8 @@
               />
             </v-col>
             <v-col
-              cols="12"
+              cols="6"
+              sm="6"
               md="2"
             >
               <v-text-field
@@ -81,7 +84,8 @@
               />
             </v-col>
             <v-col
-              cols="12"
+              cols="6"
+              sm="6"
               md="2"
             >
               <v-text-field
@@ -142,6 +146,7 @@
       <v-dialog
         v-model="showCreateDialog"
         max-width="900"
+        :fullscreen="mobile"
         persistent
       >
         <v-card>
@@ -169,11 +174,13 @@
 
 <script setup>
 import { ref, reactive, watch } from 'vue'
+import { useDisplay } from 'vuetify'
 import { useBsdStore } from '@/stores/bsd'
 import BsdList from './components/BsdList.vue'
 import BsdDetail from './components/BsdDetail.vue'
 import BsdForm from './components/BsdForm.vue'
 
+const { mobile } = useDisplay()
 const bsdStore = useBsdStore()
 
 const selectedBsd = ref(null)

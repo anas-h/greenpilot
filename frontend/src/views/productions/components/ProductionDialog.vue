@@ -79,7 +79,10 @@
               </v-select>
             </v-col>
 
-            <v-col cols="6">
+            <v-col
+              cols="12"
+              sm="6"
+            >
               <v-text-field
                 v-model.number="form.quantite"
                 label="Quantite *"
@@ -90,7 +93,10 @@
               />
             </v-col>
 
-            <v-col cols="6">
+            <v-col
+              cols="12"
+              sm="6"
+            >
               <v-select
                 v-model="form.unite"
                 :items="unites"

@@ -1,6 +1,6 @@
 <template>
   <div v-if="entreprise">
-    <div class="d-flex align-center mb-6">
+    <div class="d-flex flex-wrap align-center mb-6">
       <v-btn
         icon
         variant="text"
@@ -64,13 +64,19 @@
               label="Adresse"
             />
             <v-row dense>
-              <v-col cols="4">
+              <v-col
+                cols="12"
+                sm="4"
+              >
                 <v-text-field
                   v-model="editForm.code_postal"
                   label="Code postal"
                 />
               </v-col>
-              <v-col cols="8">
+              <v-col
+                cols="12"
+                sm="8"
+              >
                 <v-text-field
                   v-model="editForm.ville"
                   label="Ville"
@@ -200,7 +206,7 @@
     <v-row class="mt-4">
       <v-col cols="12">
         <v-card>
-          <v-card-title class="d-flex align-center">
+          <v-card-title class="d-flex flex-wrap align-center">
             Garages ({{ entreprise.garages?.length || 0 }})
             <v-spacer />
             <v-btn
@@ -212,45 +218,47 @@
               Ajouter un garage
             </v-btn>
           </v-card-title>
-          <v-data-table
-            :headers="garageHeaders"
-            :items="entreprise.garages || []"
-            density="comfortable"
-            :items-per-page="10"
-          >
-            <template #item.actif="{ item }">
-              <v-icon
-                :color="item.actif ? 'success' : 'grey'"
-                size="small"
-              >
-                {{ item.actif ? 'mdi-check-circle' : 'mdi-close-circle' }}
-              </v-icon>
-            </template>
-            <template #item.actions="{ item }">
-              <v-btn
-                size="small"
-                variant="text"
-                color="info"
-                title="Modifier"
-                @click="openEditGarageDialog(item)"
-              >
-                <v-icon size="small">
-                  mdi-pencil
+          <div style="overflow-x: auto">
+            <v-data-table
+              :headers="garageHeaders"
+              :items="entreprise.garages || []"
+              density="comfortable"
+              :items-per-page="10"
+            >
+              <template #item.actif="{ item }">
+                <v-icon
+                  :color="item.actif ? 'success' : 'grey'"
+                  size="small"
+                >
+                  {{ item.actif ? 'mdi-check-circle' : 'mdi-close-circle' }}
                 </v-icon>
-              </v-btn>
-              <v-btn
-                size="small"
-                variant="text"
-                color="error"
-                title="Supprimer"
-                @click="confirmDeleteGarage(item)"
-              >
-                <v-icon size="small">
-                  mdi-delete
-                </v-icon>
-              </v-btn>
-            </template>
-          </v-data-table>
+              </template>
+              <template #item.actions="{ item }">
+                <v-btn
+                  size="small"
+                  variant="text"
+                  color="info"
+                  title="Modifier"
+                  @click="openEditGarageDialog(item)"
+                >
+                  <v-icon size="small">
+                    mdi-pencil
+                  </v-icon>
+                </v-btn>
+                <v-btn
+                  size="small"
+                  variant="text"
+                  color="error"
+                  title="Supprimer"
+                  @click="confirmDeleteGarage(item)"
+                >
+                  <v-icon size="small">
+                    mdi-delete
+                  </v-icon>
+                </v-btn>
+              </template>
+            </v-data-table>
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -299,7 +307,7 @@
               color="primary"
               density="compact"
             />
-            <div class="d-flex ga-2 mt-2">
+            <div class="d-flex flex-wrap ga-2 mt-2">
               <v-btn
                 color="primary"
                 size="small"
@@ -336,7 +344,7 @@
     <v-row class="mt-4">
       <v-col cols="12">
         <v-card>
-          <v-card-title class="d-flex align-center">
+          <v-card-title class="d-flex flex-wrap align-center">
             Utilisateurs ({{ entreprise.users?.length || 0 }})
             <v-spacer />
             <v-btn
@@ -348,78 +356,80 @@
               Ajouter un utilisateur
             </v-btn>
           </v-card-title>
-          <v-data-table
-            :headers="userHeaders"
-            :items="entreprise.users || []"
-            density="comfortable"
-            :items-per-page="10"
-          >
-            <template #item.role="{ item }">
-              <v-chip
-                size="small"
-                :color="roleColor(item.role)"
-              >
-                {{ item.role }}
-              </v-chip>
-            </template>
-            <template #item.garages="{ item }">
-              <v-chip
-                v-for="g in (item.garages || [])"
-                :key="g.id"
-                size="x-small"
-                class="mr-1"
-              >
-                {{ g.nom }}
-              </v-chip>
-              <span
-                v-if="!item.garages?.length"
-                class="text-grey"
-              >Aucun</span>
-            </template>
-            <template #item.actif="{ item }">
-              <v-icon
-                :color="item.actif ? 'success' : 'grey'"
-                size="small"
-              >
-                {{ item.actif ? 'mdi-check-circle' : 'mdi-close-circle' }}
-              </v-icon>
-            </template>
-            <template #item.actions="{ item }">
-              <v-btn
-                size="small"
-                variant="text"
-                color="info"
-                title="Modifier"
-                @click="openEditUserDialog(item)"
-              >
-                <v-icon size="small">
-                  mdi-pencil
+          <div style="overflow-x: auto">
+            <v-data-table
+              :headers="userHeaders"
+              :items="entreprise.users || []"
+              density="comfortable"
+              :items-per-page="10"
+            >
+              <template #item.role="{ item }">
+                <v-chip
+                  size="small"
+                  :color="roleColor(item.role)"
+                >
+                  {{ item.role }}
+                </v-chip>
+              </template>
+              <template #item.garages="{ item }">
+                <v-chip
+                  v-for="g in (item.garages || [])"
+                  :key="g.id"
+                  size="x-small"
+                  class="mr-1"
+                >
+                  {{ g.nom }}
+                </v-chip>
+                <span
+                  v-if="!item.garages?.length"
+                  class="text-grey"
+                >Aucun</span>
+              </template>
+              <template #item.actif="{ item }">
+                <v-icon
+                  :color="item.actif ? 'success' : 'grey'"
+                  size="small"
+                >
+                  {{ item.actif ? 'mdi-check-circle' : 'mdi-close-circle' }}
                 </v-icon>
-              </v-btn>
-              <v-btn
-                size="small"
-                variant="text"
-                color="primary"
-                title="Se connecter en tant que"
-                @click="impersonate(item.id)"
-              >
-                <v-icon size="small">
-                  mdi-account-switch
-                </v-icon>
-              </v-btn>
-              <v-btn
-                size="small"
-                variant="text"
-                color="error"
-                title="Supprimer"
-                @click="confirmDeleteUser(item)"
-              >
-                <v-icon size="small">
-                  mdi-delete
-                </v-icon>
-              </v-btn>
-            </template>
-          </v-data-table>
+              </template>
+              <template #item.actions="{ item }">
+                <v-btn
+                  size="small"
+                  variant="text"
+                  color="info"
+                  title="Modifier"
+                  @click="openEditUserDialog(item)"
+                >
+                  <v-icon size="small">
+                    mdi-pencil
+                  </v-icon>
+                </v-btn>
+                <v-btn
+                  size="small"
+                  variant="text"
+                  color="primary"
+                  title="Se connecter en tant que"
+                  @click="impersonate(item.id)"
+                >
+                  <v-icon size="small">
+                    mdi-account-switch
+                  </v-icon>
+                </v-btn>
+                <v-btn
+                  size="small"
+                  variant="text"
+                  color="error"
+                  title="Supprimer"
+                  @click="confirmDeleteUser(item)"
+                >
+                  <v-icon size="small">
+                    mdi-delete
+                  </v-icon>
+                </v-btn>
+              </template>
+            </v-data-table>
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -428,6 +438,7 @@
     <v-dialog
       v-model="garageDialog"
       max-width="550"
+      :fullscreen="mobile"
     >
       <v-card>
         <v-card-title>{{ editingGarageId ? 'Modifier le garage' : 'Ajouter un garage' }}</v-card-title>
@@ -445,13 +456,19 @@
             label="Adresse"
           />
           <v-row dense>
-            <v-col cols="4">
+            <v-col
+              cols="12"
+              sm="4"
+            >
               <v-text-field
                 v-model="garageForm.code_postal"
                 label="Code postal"
               />
             </v-col>
-            <v-col cols="8">
+            <v-col
+              cols="12"
+              sm="8"
+            >
               <v-text-field
                 v-model="garageForm.ville"
                 label="Ville"
@@ -497,18 +514,25 @@
     <v-dialog
       v-model="userDialog"
       max-width="550"
+      :fullscreen="mobile"
     >
       <v-card>
         <v-card-title>{{ editingUserId ? 'Modifier' : 'Ajouter' }} un utilisateur</v-card-title>
         <v-card-text>
           <v-row dense>
-            <v-col cols="6">
+            <v-col
+              cols="12"
+              sm="6"
+            >
               <v-text-field
                 v-model="userForm.prenom"
                 label="Prenom"
               />
             </v-col>
-            <v-col cols="6">
+            <v-col
+              cols="12"
+              sm="6"
+            >
               <v-text-field
                 v-model="userForm.nom"
                 label="Nom"
@@ -605,12 +629,14 @@
 <script setup>
 import { ref, reactive, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useDisplay } from 'vuetify'
 import { useAdminStore } from '../../stores/admin'
 import { useAuthStore } from '../../stores/auth'
 import { useUiStore } from '../../stores/ui'
 import api from '../../services/api'
 import { storeToRefs } from 'pinia'
 
+const { mobile } = useDisplay()
 const route = useRoute()
 const router = useRouter()
 const adminStore = useAdminStore()
