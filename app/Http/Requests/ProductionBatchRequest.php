@@ -20,7 +20,7 @@ class ProductionBatchRequest extends FormRequest
             'productions.*.quantite' => 'required|numeric|gt:0',
             'productions.*.unite' => 'required|string|in:kg,litres,unites,tonnes,m3',
             'productions.*.date_production' => 'required|date|before_or_equal:today',
-            'productions.*.source_type' => 'nullable|string|in:manuelle,scan_qr,import_or,correction',
+            'productions.*.source_type' => 'nullable|string|in:manuelle,scan_qr,import_or,correction,scan_barcode',
             'productions.*.reference_externe' => 'nullable|string|max:100',
             'productions.*.vehicule_info' => 'nullable|string|max:255',
             'productions.*.notes' => 'nullable|string|max:1000',

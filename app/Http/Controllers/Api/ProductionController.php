@@ -222,6 +222,51 @@ class ProductionController extends Controller
     }
 
     /**
+     * Scan a product barcode and suggest waste type mapping.
+     */
+    public function scanBarcode(Request $request): JsonResponse
+    {
+        $request->validate([
+            'ean' => 'required|string|regex:/^\d{8,14}$/',
+        ]);
+
+        $garageId = $request->current_garage->id;
+        $service = new \App\Services\BarcodeService();
+
+        $product = $service->lookupProduct($request->input('ean'));
+
+        if (!$product) {
+            return response()->json([
+                'found' => false,
+                'message' => 'Produit non trouve dans la base de donnees.',
+            ]);
+        }
+
+        $categorie = $service->matchCategory($product);
+        $typeDechet = $service->findTypeDechet($categorie, $garageId);
+        $unite = $typeDechet?->unite_mesure ?? 'kg';
+        $quantite = $service->estimateQuantity($product, $unite);
+
+        return response()->json([
+            'found' => true,
+            'product' => [
+                'name' => $product['product_name'] ?? $product['product_name_fr'] ?? null,
+                'brand' => $product['brands'] ?? null,
+                'categories' => $product['categories'] ?? null,
+                'quantity' => $product['quantity'] ?? null,
+                'ean' => $request->input('ean'),
+            ],
+            'suggestion' => [
+                'categorie' => $categorie,
+                'type_dechet_id' => $typeDechet?->id,
+                'type_dechet_denomination' => $typeDechet?->denomination,
+                'unite' => $unite,
+                'quantite' => $quantite,
+            ],
+        ]);
+    }
+
+    /**
      * Given a text description, find matching mappings and suggest productions.
      */
     public function suggestions(Request $request): JsonResponse

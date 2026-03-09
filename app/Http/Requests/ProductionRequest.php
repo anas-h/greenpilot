@@ -19,7 +19,7 @@ class ProductionRequest extends FormRequest
             'quantite' => 'required|numeric|gt:0',
             'unite' => 'required|string|in:kg,litres,unites,tonnes,m3',
             'date_production' => 'required|date|before_or_equal:today',
-            'source_type' => 'nullable|string|in:manuelle,scan_qr,import_or,correction',
+            'source_type' => 'nullable|string|in:manuelle,scan_qr,import_or,correction,scan_barcode',
             'reference_externe' => 'nullable|string|max:100',
             'vehicule_info' => 'nullable|string|max:255',
             'notes' => 'nullable|string|max:1000',

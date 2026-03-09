@@ -91,6 +91,7 @@ Route::middleware(['auth:sanctum', 'entreprise.active'])->group(function () {
             Route::get('/collecteurs-comparatif', [CollecteurController::class, 'comparatif']);
 
             // Productions
+            Route::post('/productions/scan-barcode', [ProductionController::class, 'scanBarcode']);
             Route::apiResource('productions', ProductionController::class);
             Route::post('/productions/batch', [ProductionController::class, 'storeBatch']);
             Route::post('/productions/validate', [ProductionController::class, 'validateProductions']);

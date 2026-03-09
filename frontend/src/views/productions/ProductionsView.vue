@@ -35,6 +35,12 @@
         </v-icon>
         Scan QR
       </v-tab>
+      <v-tab value="scan-barcode">
+        <v-icon start>
+          mdi-barcode-scan
+        </v-icon>
+        <span class="d-none d-sm-inline">Scan Produit</span>
+      </v-tab>
       <v-tab value="batch">
         <v-icon start>
           mdi-table-plus
@@ -55,6 +61,10 @@
         <ProductionScanQr @saved="refreshList" />
       </v-tabs-window-item>
 
+      <v-tabs-window-item value="scan-barcode">
+        <ProductionScanBarcode @saved="refreshList" />
+      </v-tabs-window-item>
+
       <v-tabs-window-item value="batch">
         <ProductionBatch @saved="refreshList" />
       </v-tabs-window-item>
@@ -73,6 +83,7 @@ import { ref } from 'vue'
 import ProductionsList from './components/ProductionsList.vue'
 import ProductionDialog from './components/ProductionDialog.vue'
 import ProductionScanQr from './components/ProductionScanQr.vue'
+import ProductionScanBarcode from './components/ProductionScanBarcode.vue'
 import ProductionBatch from './components/ProductionBatch.vue'
 
 const activeTab = ref('liste')
