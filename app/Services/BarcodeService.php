@@ -24,28 +24,51 @@ class BarcodeService
     ];
 
     /**
-     * Look up a product by EAN code via Open Products Facts or Open Food Facts.
+     * Look up a product by EAN code across multiple open databases.
      */
     public function lookupProduct(string $ean): ?array
     {
-        // Try Open Products Facts first (non-food products)
-        $response = Http::timeout(5)->get("https://world.openproductsfacts.org/api/v2/product/{$ean}.json");
+        // Try multiple Open*Facts databases
+        $databases = [
+            'https://world.openproductsfacts.org/api/v2/product/',
+            'https://world.openfoodfacts.org/api/v2/product/',
+            'https://world.openbeautyfacts.org/api/v2/product/',
+        ];
 
-        if ($response->ok()) {
-            $data = $response->json();
-            if (($data['status'] ?? 0) == 1 && !empty($data['product'])) {
-                return $data['product'];
+        foreach ($databases as $baseUrl) {
+            try {
+                $response = Http::timeout(5)->get("{$baseUrl}{$ean}.json");
+                if ($response->ok()) {
+                    $data = $response->json();
+                    if (($data['status'] ?? 0) == 1 && !empty($data['product'])) {
+                        return $data['product'];
+                    }
+                }
+            } catch (\Exception $e) {
+                Log::debug("Barcode lookup failed on {$baseUrl}: {$e->getMessage()}");
             }
         }
 
-        // Fallback to Open Food Facts (broader database)
-        $response = Http::timeout(5)->get("https://world.openfoodfacts.org/api/v2/product/{$ean}.json");
-
-        if ($response->ok()) {
-            $data = $response->json();
-            if (($data['status'] ?? 0) == 1 && !empty($data['product'])) {
-                return $data['product'];
+        // Fallback: UPC ItemDB (free API, covers many industrial products)
+        try {
+            $response = Http::timeout(5)
+                ->get("https://api.upcitemdb.com/prod/trial/lookup", ['upc' => $ean]);
+            if ($response->ok()) {
+                $data = $response->json();
+                $items = $data['items'] ?? [];
+                if (!empty($items[0])) {
+                    $item = $items[0];
+                    return [
+                        'product_name' => $item['title'] ?? null,
+                        'brands' => $item['brand'] ?? null,
+                        'categories' => $item['category'] ?? null,
+                        'categories_tags' => [],
+                        'quantity' => null,
+                    ];
+                }
             }
+        } catch (\Exception $e) {
+            Log::debug("UPC ItemDB lookup failed: {$e->getMessage()}");
         }
 
         return null;
