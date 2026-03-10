@@ -74,7 +74,7 @@ class StripeWebhookController extends WebhookController
 
         $limits = match ($plan) {
             'premium' => ['max_garages' => 999, 'max_users' => 999],
-            default => ['max_garages' => 3, 'max_users' => 15],
+            default => ['max_garages' => 1, 'max_users' => 5],
         };
 
         $entreprise->update(array_merge(['plan' => $plan], $limits));

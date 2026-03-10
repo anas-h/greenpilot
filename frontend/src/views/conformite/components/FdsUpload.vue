@@ -256,13 +256,13 @@ function formatFileSize(bytes) {
 
 async function fetchTypesDechets() {
   try {
-    const response = await api.get('/type-dechets', {
-      params: { actif: true, per_page: 200 },
+    const response = await api.get('/types-dechets', {
+      params: { per_page: 200 },
     })
     const items = response.data.data || response.data
     typesDechets.value = items.map(td => ({
       id: td.id,
-      label: `${td.code_dechet ? td.code_dechet + ' - ' : ''}${td.nom}${td.dangereux ? ' (DD)' : ''}`,
+      label: `${td.code_europeen ? td.code_europeen + ' - ' : ''}${td.denomination}${td.dangereux ? ' (DD)' : ''}`,
       dangereux: td.dangereux,
     }))
   } catch (err) {

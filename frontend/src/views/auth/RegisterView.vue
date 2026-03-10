@@ -52,253 +52,32 @@
               GreenPilot
             </h1>
             <p class="text-body-2 text-medium-emphasis">
-              Creez votre compte en quelques etapes
+              Creez votre compte et demarrez votre essai gratuit
             </p>
           </div>
 
-          <!-- Stepper visuel -->
-          <div class="d-flex align-center justify-center ga-2 mb-6">
-            <v-avatar
-              :color="step >= 1 ? 'primary' : 'grey-lighten-2'"
-              size="32"
-              class="step-badge"
-            >
+          <!-- Bandeau plan Standard -->
+          <v-alert
+            type="info"
+            variant="tonal"
+            density="compact"
+            class="mb-5"
+          >
+            <div class="d-flex align-center">
               <v-icon
-                v-if="step > 1"
                 size="18"
-              >
-                mdi-check
-              </v-icon>
-              <span
-                v-else
-                class="text-caption font-weight-bold"
-                :class="step === 1 ? 'text-white' : ''"
-              >1</span>
-            </v-avatar>
-            <div
-              class="step-line"
-              :class="{ active: step >= 2 }"
-            />
-            <v-avatar
-              :color="step >= 2 ? 'primary' : 'grey-lighten-2'"
-              size="32"
-              class="step-badge"
-            >
-              <span
-                class="text-caption font-weight-bold"
-                :class="step === 2 ? 'text-white' : ''"
-              >2</span>
-            </v-avatar>
-          </div>
-
-          <!-- ==================== STEP 1 : Plan ==================== -->
-          <div
-            v-if="step === 1"
-            class="step-content"
-          >
-            <div class="text-center mb-5">
-              <h2 class="text-h6 font-weight-bold">
-                Choisissez votre plan
-              </h2>
-              <p class="text-body-2 text-medium-emphasis mt-1">
-                <v-icon
-                  size="16"
-                  color="success"
-                  class="mr-1"
-                >
-                  mdi-gift-outline
-                </v-icon>
-                Essai gratuit de 14 jours, sans carte bancaire
-              </p>
-            </div>
-
-            <v-row dense>
-              <!-- Standard -->
-              <v-col
-                cols="12"
-                sm="6"
-              >
-                <v-card
-                  :class="['plan-card', { 'plan-active': form.plan === 'standard' }]"
-                  variant="outlined"
-                  rounded="lg"
-                  @click="form.plan = 'standard'"
-                >
-                  <v-card-text class="pa-5">
-                    <div class="d-flex align-center justify-space-between mb-3">
-                      <div class="d-flex align-center">
-                        <v-avatar
-                          color="primary"
-                          variant="tonal"
-                          size="40"
-                          rounded="lg"
-                          class="plan-avatar mr-3"
-                        >
-                          <v-icon size="22">
-                            mdi-rocket-launch-outline
-                          </v-icon>
-                        </v-avatar>
-                        <span class="text-subtitle-1 font-weight-bold">Standard</span>
-                      </div>
-                      <v-icon
-                        v-if="form.plan === 'standard'"
-                        size="22"
-                        class="plan-check"
-                      >
-                        mdi-check-circle
-                      </v-icon>
-                    </div>
-
-                    <div class="mb-3">
-                      <span class="text-h4 font-weight-black">49</span>
-                      <span class="text-body-2">&euro; / mois</span>
-                    </div>
-
-                    <v-divider class="mb-3 plan-divider" />
-
-                    <div class="text-body-2 plan-features">
-                      <div
-                        v-for="feat in standardFeatures"
-                        :key="feat"
-                        class="d-flex align-center mb-2"
-                      >
-                        <v-icon
-                          size="16"
-                          color="success"
-                          class="mr-2 plan-feat-icon"
-                        >
-                          mdi-check-circle
-                        </v-icon>
-                        {{ feat }}
-                      </div>
-                    </div>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-
-              <!-- Premium -->
-              <v-col
-                cols="12"
-                sm="6"
-              >
-                <v-card
-                  :class="['plan-card', { 'plan-active': form.plan === 'premium' }]"
-                  variant="outlined"
-                  rounded="lg"
-                  @click="form.plan = 'premium'"
-                >
-                  <!-- Badge populaire -->
-                  <v-chip
-                    v-if="form.plan !== 'premium'"
-                    color="warning"
-                    size="x-small"
-                    variant="flat"
-                    class="popular-badge"
-                  >
-                    Populaire
-                  </v-chip>
-
-                  <v-card-text class="pa-5">
-                    <div class="d-flex align-center justify-space-between mb-3">
-                      <div class="d-flex align-center">
-                        <v-avatar
-                          color="warning"
-                          variant="tonal"
-                          size="40"
-                          rounded="lg"
-                          class="plan-avatar mr-3"
-                        >
-                          <v-icon size="22">
-                            mdi-star-outline
-                          </v-icon>
-                        </v-avatar>
-                        <span class="text-subtitle-1 font-weight-bold">Premium</span>
-                      </div>
-                      <v-icon
-                        v-if="form.plan === 'premium'"
-                        size="22"
-                        class="plan-check"
-                      >
-                        mdi-check-circle
-                      </v-icon>
-                    </div>
-
-                    <div class="mb-3">
-                      <span class="text-h4 font-weight-black">99</span>
-                      <span class="text-body-2">&euro; / mois</span>
-                    </div>
-
-                    <v-divider class="mb-3 plan-divider" />
-
-                    <div class="text-body-2 plan-features">
-                      <div
-                        v-for="feat in premiumFeatures"
-                        :key="feat"
-                        class="d-flex align-center mb-2"
-                      >
-                        <v-icon
-                          size="16"
-                          color="success"
-                          class="mr-2 plan-feat-icon"
-                        >
-                          mdi-check-circle
-                        </v-icon>
-                        {{ feat }}
-                      </div>
-                    </div>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-            </v-row>
-
-            <v-btn
-              color="primary"
-              block
-              size="large"
-              rounded="lg"
-              class="mt-6 text-none"
-              :disabled="!form.plan"
-              @click="step = 2"
-            >
-              Continuer
-              <v-icon end>
-                mdi-arrow-right
-              </v-icon>
-            </v-btn>
-          </div>
-
-          <!-- ==================== STEP 2 : Formulaire ==================== -->
-          <div
-            v-if="step === 2"
-            class="step-content"
-          >
-            <div class="d-flex align-center mb-4">
-              <v-btn
-                variant="text"
-                size="small"
-                color="primary"
                 class="mr-2"
-                @click="step = 1"
               >
-                <v-icon
-                  start
-                  size="18"
-                >
-                  mdi-arrow-left
-                </v-icon>
-                Retour
-              </v-btn>
-              <v-spacer />
-              <v-chip
-                color="primary"
-                variant="tonal"
-                size="small"
-                prepend-icon="mdi-check-circle"
-              >
-                Plan {{ form.plan === 'premium' ? 'Premium' : 'Standard' }} — 14 jours gratuits
-              </v-chip>
+                mdi-gift-outline
+              </v-icon>
+              <span class="text-body-2">
+                <strong>Plan Standard</strong> — Essai gratuit de 14 jours, sans carte bancaire
+              </span>
             </div>
+          </v-alert>
 
+          <!-- ==================== Formulaire ==================== -->
+          <div class="step-content">
             <div class="text-center mb-5">
               <h2 class="text-h6 font-weight-bold">
                 Vos informations
@@ -429,6 +208,28 @@
             </v-form>
           </div>
 
+          <!-- Note Premium -->
+          <div
+            class="text-center mt-4 pa-3 rounded-lg"
+            style="background: rgba(0,0,0,0.03)"
+          >
+            <p class="text-body-2 text-medium-emphasis mb-1">
+              Besoin de plus de garages ou d'utilisateurs ?
+            </p>
+            <router-link
+              to="/contact"
+              class="text-primary text-body-2 font-weight-medium text-decoration-none"
+            >
+              Contactez-nous pour un devis personnalise
+              <v-icon
+                size="14"
+                class="ml-1"
+              >
+                mdi-arrow-right
+              </v-icon>
+            </router-link>
+          </div>
+
           <!-- Lien login + erreur -->
           <div class="text-center mt-5">
             <span class="text-body-2 text-medium-emphasis">Deja un compte ?</span>
@@ -465,29 +266,12 @@ import { useAuthStore } from '../../stores/auth'
 const router = useRouter()
 const authStore = useAuthStore()
 
-const step = ref(1)
 const showPassword = ref(false)
 const showPasswordConfirm = ref(false)
 const form = reactive({ nom: '', prenom: '', email: '', password: '', password_confirmation: '', raison_sociale: '', siret: '', plan: 'standard' })
 const errors = reactive({})
 const loading = ref(false)
 const errorMessage = ref('')
-
-const standardFeatures = [
-  '3 garages',
-  '15 utilisateurs',
-  'Sync Trackdechets',
-  'Score conformite ICPE',
-  'Support prioritaire',
-]
-
-const premiumFeatures = [
-  'Garages illimites',
-  'Utilisateurs illimites',
-  'Tout du Standard',
-  'API personnalisee',
-  'Account manager dedie',
-]
 
 async function handleRegister() {
   loading.value = true
@@ -515,77 +299,6 @@ async function handleRegister() {
 
 .step-content {
   animation: slideIn 0.3s ease-out;
-}
-
-.step-line {
-  width: 60px;
-  height: 3px;
-  background: #e0e0e0;
-  border-radius: 2px;
-  transition: background 0.3s ease;
-}
-
-.step-line.active {
-  background: #2E7D32;
-}
-
-.step-badge {
-  transition: all 0.3s ease;
-}
-
-.plan-card {
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
-  overflow: visible;
-}
-
-.plan-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-}
-
-/* Selected plan: green background + all text/icons white */
-.plan-active {
-  background-color: #2E7D32 !important;
-  border-color: #2E7D32 !important;
-  color: #fff !important;
-  box-shadow: 0 8px 32px rgba(46, 125, 50, 0.35);
-}
-
-.plan-active :deep(.v-card-text) {
-  color: #fff !important;
-}
-
-.plan-active :deep(.v-avatar) {
-  background-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-.plan-active :deep(.v-avatar .v-icon) {
-  color: #fff !important;
-}
-
-.plan-active :deep(.plan-check) {
-  color: #fff !important;
-}
-
-.plan-active :deep(.plan-feat-icon) {
-  color: #fff !important;
-}
-
-.plan-active :deep(.v-divider) {
-  border-color: rgba(255, 255, 255, 0.3) !important;
-}
-
-.plan-active .plan-features {
-  color: rgba(255, 255, 255, 0.9) !important;
-}
-
-.popular-badge {
-  position: absolute;
-  top: -10px;
-  right: 12px;
-  z-index: 1;
 }
 
 @keyframes fadeIn {

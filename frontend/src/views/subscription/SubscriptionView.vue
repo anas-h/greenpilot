@@ -128,8 +128,8 @@
               size="large"
               class="d-none d-sm-flex"
             >
-              <span class="text-h6 font-weight-black mr-1">{{ subscriptionStore.plan === 'premium' ? '99' : '49' }}</span>
-              <span class="text-caption">&euro;/mois</span>
+              <span class="text-h6 font-weight-black mr-1">{{ subscriptionStore.plan === 'premium' ? 'Sur devis' : '49' }}</span>
+              <span v-if="subscriptionStore.plan !== 'premium'" class="text-caption">&euro;/mois</span>
             </v-chip>
           </div>
 
@@ -371,12 +371,12 @@
               <div class="mt-4">
                 <v-btn
                   v-if="!subscriptionStore.subscribed"
-                  color="primary"
+                  color="grey"
                   block
                   size="large"
                   rounded="lg"
                   class="text-none"
-                  :to="{ name: 'checkout', params: { plan: 'standard' } }"
+                  disabled
                 >
                   <v-icon start>
                     mdi-lightning-bolt
@@ -390,8 +390,7 @@
                   size="large"
                   rounded="lg"
                   class="text-none"
-                  :loading="previewLoading && targetPlan === 'standard'"
-                  @click="handleChangePlan('standard')"
+                  disabled
                 >
                   Passer en Standard
                 </v-btn>
@@ -454,8 +453,7 @@
               </div>
 
               <div class="mb-3">
-                <span class="text-h3 font-weight-black">99</span>
-                <span class="text-body-2">&euro; / mois</span>
+                <span class="text-h5 font-weight-black">Sur devis</span>
               </div>
 
               <v-divider class="mb-3 plan-divider" />
@@ -481,12 +479,12 @@
               <div class="mt-4">
                 <v-btn
                   v-if="!subscriptionStore.subscribed"
-                  color="primary"
+                  color="grey"
                   block
                   size="large"
                   rounded="lg"
                   class="text-none"
-                  :to="{ name: 'checkout', params: { plan: 'premium' } }"
+                  disabled
                 >
                   <v-icon start>
                     mdi-lightning-bolt
@@ -495,14 +493,13 @@
                 </v-btn>
                 <v-btn
                   v-else-if="subscriptionStore.plan === 'standard'"
-                  color="warning"
+                  color="grey"
                   variant="tonal"
                   block
                   size="large"
                   rounded="lg"
                   class="text-none"
-                  :loading="previewLoading && targetPlan === 'premium'"
-                  @click="handleChangePlan('premium')"
+                  disabled
                 >
                   <v-icon start>
                     mdi-arrow-up-bold
@@ -514,6 +511,54 @@
           </v-card>
         </v-col>
       </v-row>
+
+      <!-- Contact message -->
+      <v-alert
+        type="info"
+        variant="tonal"
+        prominent
+        class="mt-4 sub-card"
+        :style="{ animationDelay: '280ms' }"
+      >
+        <template #prepend>
+          <v-avatar
+            color="info"
+            variant="tonal"
+            size="44"
+            rounded="lg"
+          >
+            <v-icon size="22">
+              mdi-email-outline
+            </v-icon>
+          </v-avatar>
+        </template>
+        <div>
+          <div class="text-subtitle-2 font-weight-bold">
+            Interessé par un abonnement ?
+          </div>
+          <div class="text-body-2 mt-1">
+            Contactez notre equipe pour plus d'informations sur les offres et obtenir un accompagnement personnalise.
+          </div>
+          <div class="mt-2">
+            <v-btn
+              variant="flat"
+              color="primary"
+              size="small"
+              rounded="lg"
+              class="text-none mr-2"
+              href="mailto:contact@greenpilot.fr"
+            >
+              <v-icon
+                start
+                size="16"
+              >
+                mdi-email
+              </v-icon>
+              contact@greenpilot.fr
+            </v-btn>
+          </div>
+        </div>
+      </v-alert>
 
       <!-- Moyens de paiement -->
       <v-card
@@ -1032,8 +1077,8 @@ function invoiceStatusLabel(status) {
 }
 
 const standardFeatures = [
-  'Jusqu\'a 3 garages',
-  '15 utilisateurs',
+  '1 garage',
+  '5 utilisateurs',
   'Synchronisation Trackdechets',
   'Score conformite ICPE',
   'Support prioritaire',

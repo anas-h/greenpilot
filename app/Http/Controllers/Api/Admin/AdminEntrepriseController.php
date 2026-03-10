@@ -82,8 +82,8 @@ class AdminEntrepriseController extends Controller
             'actif' => true,
             'plan' => $data['plan'] ?? 'standard',
             'trial_ends_at' => now()->addDays(14),
-            'max_garages' => $data['max_garages'] ?? 3,
-            'max_users' => $data['max_users'] ?? 15,
+            'max_garages' => $data['max_garages'] ?? 1,
+            'max_users' => $data['max_users'] ?? 5,
         ]));
 
         return response()->json(['data' => $entreprise], 201);

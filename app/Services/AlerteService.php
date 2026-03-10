@@ -11,6 +11,8 @@ use App\Models\FicheSecurite;
 use App\Models\Garage;
 use App\Models\Production;
 use App\Models\TypeDechet;
+use App\Models\User;
+use App\Notifications\AlerteCritiqueNotification;
 use Carbon\Carbon;
 
 class AlerteService
@@ -566,7 +568,7 @@ class AlerteService
             return null;
         }
 
-        return Alerte::create([
+        $alerte = Alerte::create([
             'garage_id' => $garageId,
             'type' => $type,
             'priorite' => $priorite,
@@ -577,5 +579,34 @@ class AlerteService
             'lue' => false,
             'resolue' => false,
         ]);
+
+        // Send email notification for critical alerts
+        if ($priorite === 'critique') {
+            $this->notifyUsersForCriticalAlert($alerte);
+        }
+
+        return $alerte;
+    }
+
+    /**
+     * Notify users who opted in for critical alert emails.
+     */
+    private function notifyUsersForCriticalAlert(Alerte $alerte): void
+    {
+        $garage = Garage::find($alerte->garage_id);
+        if (! $garage) {
+            return;
+        }
+
+        // Find users linked to this garage with email_alertes_critiques enabled
+        $users = User::where('entreprise_id', $garage->entreprise_id)
+            ->where('actif', true)
+            ->whereJsonContains('preferences_notifications->email_alertes_critiques', true)
+            ->get()
+            ->filter(fn (User $user) => $user->hasAccessToGarage($alerte->garage_id));
+
+        foreach ($users as $user) {
+            $user->notify(new AlerteCritiqueNotification($alerte));
+        }
     }
 }

@@ -29,12 +29,6 @@
         </v-icon>
         Liste
       </v-tab>
-      <v-tab value="scan">
-        <v-icon start>
-          mdi-qrcode-scan
-        </v-icon>
-        Scan QR
-      </v-tab>
       <v-tab value="scan-barcode">
         <v-icon start>
           mdi-barcode-scan
@@ -55,10 +49,6 @@
           ref="listRef"
           @edit="openProductionDialog"
         />
-      </v-tabs-window-item>
-
-      <v-tabs-window-item value="scan">
-        <ProductionScanQr @saved="refreshList" />
       </v-tabs-window-item>
 
       <v-tabs-window-item value="scan-barcode">
@@ -82,7 +72,6 @@
 import { ref } from 'vue'
 import ProductionsList from './components/ProductionsList.vue'
 import ProductionDialog from './components/ProductionDialog.vue'
-import ProductionScanQr from './components/ProductionScanQr.vue'
 import ProductionScanBarcode from './components/ProductionScanBarcode.vue'
 import ProductionBatch from './components/ProductionBatch.vue'
 

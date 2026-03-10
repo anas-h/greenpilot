@@ -384,8 +384,8 @@ const planFeatures = computed(() => {
     ]
   }
   return [
-    'Jusqu\'a 3 garages',
-    '15 utilisateurs',
+    '1 garage',
+    '5 utilisateurs',
     'Synchronisation Trackdechets',
     'Score conformite ICPE',
     'Support prioritaire',

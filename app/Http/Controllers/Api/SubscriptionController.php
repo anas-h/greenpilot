@@ -431,7 +431,7 @@ class SubscriptionController extends Controller
     {
         return match ($plan) {
             'premium' => ['max_garages' => 999, 'max_users' => 999],
-            default => ['max_garages' => 3, 'max_users' => 15],
+            default => ['max_garages' => 1, 'max_users' => 5],
         };
     }
 }

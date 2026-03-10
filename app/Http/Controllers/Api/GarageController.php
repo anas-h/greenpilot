@@ -19,7 +19,7 @@ class GarageController extends Controller
 
         // Super admin can see all garages across all enterprises
         if ($user->isSuperAdmin()) {
-            $query = Garage::where('actif', true);
+            $query = Garage::with('entreprise:id,raison_sociale')->where('actif', true);
         } else {
             $query = Garage::where('entreprise_id', $user->entreprise_id)->where('actif', true);
         }

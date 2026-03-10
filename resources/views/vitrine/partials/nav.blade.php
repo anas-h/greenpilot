@@ -22,8 +22,12 @@
 
             {{-- CTA --}}
             <div class="hidden md:flex items-center gap-3">
-                <a href="/login" class="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors px-4 py-2">Se connecter</a>
-                <a href="/register" class="inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-green-700 rounded-full hover:bg-green-800 transition-all duration-200 hover:scale-[1.02] shadow-sm">
+                <a href="/dashboard" id="nav-dashboard-desktop" class="inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-green-700 rounded-full hover:bg-green-800 transition-all duration-200 hover:scale-[1.02] shadow-sm" style="display:none;">
+                    Tableau de bord
+                    <svg class="w-4 h-4 ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                </a>
+                <a href="/login" id="nav-login-desktop" class="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors px-4 py-2">Se connecter</a>
+                <a href="/register" id="nav-register-desktop" class="inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-green-700 rounded-full hover:bg-green-800 transition-all duration-200 hover:scale-[1.02] shadow-sm">
                     Essai gratuit
                     <svg class="w-4 h-4 ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
                 </a>
@@ -43,9 +47,24 @@
             <a href="{{ route('tarifs') }}" class="block text-sm font-medium text-gray-700 py-2">Tarifs</a>
             <a href="{{ route('contact') }}" class="block text-sm font-medium text-gray-700 py-2">Contact</a>
             <div class="pt-3 border-t border-gray-100 flex flex-col gap-2">
-                <a href="/login" class="text-sm font-medium text-gray-700 py-2">Se connecter</a>
-                <a href="/register" class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-green-700 rounded-full">Essai gratuit</a>
+                <a href="/dashboard" id="nav-dashboard-mobile" class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-green-700 rounded-full" style="display:none;">Tableau de bord</a>
+                <a href="/login" id="nav-login-mobile" class="text-sm font-medium text-gray-700 py-2">Se connecter</a>
+                <a href="/register" id="nav-register-mobile" class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-green-700 rounded-full">Essai gratuit</a>
             </div>
         </div>
     </div>
 </nav>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var token = localStorage.getItem('token');
+    if (token) {
+        document.getElementById('nav-dashboard-desktop').style.display = '';
+        document.getElementById('nav-login-desktop').style.display = 'none';
+        document.getElementById('nav-register-desktop').style.display = 'none';
+        document.getElementById('nav-dashboard-mobile').style.display = '';
+        document.getElementById('nav-login-mobile').style.display = 'none';
+        document.getElementById('nav-register-mobile').style.display = 'none';
+    }
+});
+</script>

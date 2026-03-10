@@ -260,8 +260,8 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             @php
             $plans = [
-                ['name' => 'Standard', 'price' => '49', 'desc' => 'Pour les garages actifs', 'features' => ['3 garages', '15 utilisateurs', 'Suivi complet des dechets', 'Sync Trackdechets', 'Eco-contributions', 'Calendrier enlevements', 'BSD automatises', 'Support prioritaire'], 'cta' => 'Essai gratuit 14 jours', 'href' => '/register', 'featured' => true],
-                ['name' => 'Premium', 'price' => '99', 'desc' => 'Pour les groupes multi-sites', 'features' => ['Garages illimites', 'Utilisateurs illimites', 'Tout du plan Standard', 'API personnalisee', 'Formations incluses', 'Account manager dedie', 'SLA garanti'], 'cta' => 'Nous contacter', 'href' => route('contact'), 'featured' => false],
+                ['name' => 'Standard', 'price' => '49', 'desc' => 'Pour les garages actifs', 'features' => ['1 garage', '5 utilisateurs', 'Suivi complet des dechets', 'Sync Trackdechets', 'Eco-contributions', 'Calendrier enlevements', 'BSD automatises', 'Support prioritaire'], 'cta' => 'Essai gratuit 14 jours', 'href' => '/register', 'featured' => true],
+                ['name' => 'Premium', 'price' => null, 'desc' => 'Pour les groupes multi-sites', 'features' => ['Garages illimites', 'Utilisateurs illimites', 'Tout du plan Standard', 'API personnalisee', 'Formations incluses', 'Account manager dedie', 'SLA garanti'], 'cta' => 'Demander un devis', 'href' => route('contact'), 'featured' => false],
             ];
             @endphp
 
@@ -277,8 +277,12 @@
                     <p class="text-sm text-gray-500 mt-1">{{ $plan['desc'] }}</p>
                 </div>
                 <div class="mb-6">
+                    @if($plan['price'])
                     <span class="text-4xl font-extrabold text-gray-900">{{ $plan['price'] }}&euro;</span>
                     <span class="text-sm text-gray-500"> /mois</span>
+                    @else
+                    <span class="text-3xl font-extrabold text-gray-900">Sur devis</span>
+                    @endif
                 </div>
                 <ul class="space-y-3 mb-8 flex-1">
                     @foreach($plan['features'] as $feature)

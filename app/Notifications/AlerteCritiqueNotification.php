@@ -3,15 +3,11 @@
 namespace App\Notifications;
 
 use App\Models\Alerte;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AlerteCritiqueNotification extends Notification implements ShouldQueue
+class AlerteCritiqueNotification extends Notification
 {
-    use Queueable;
-
     public function __construct(
         private Alerte $alerte
     ) {}

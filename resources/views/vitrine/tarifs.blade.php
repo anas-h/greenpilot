@@ -28,8 +28,8 @@
                     'href' => '/register',
                     'sections' => [
                         'Limites' => [
-                            ['text' => '3 garages', 'included' => true],
-                            ['text' => '15 utilisateurs max', 'included' => true],
+                            ['text' => '1 garage', 'included' => true],
+                            ['text' => '5 utilisateurs max', 'included' => true],
                         ],
                         'Gestion des dechets' => [
                             ['text' => 'Types de dechets', 'included' => true],
@@ -59,10 +59,10 @@
                 ],
                 [
                     'name' => 'Premium',
-                    'price' => '99',
+                    'price' => null,
                     'desc' => 'Pour les groupes multi-sites',
                     'featured' => false,
-                    'cta' => 'Nous contacter',
+                    'cta' => 'Demander un devis',
                     'href' => '/contact',
                     'sections' => [
                         'Limites' => [
@@ -111,8 +111,12 @@
                         <p class="text-sm text-gray-500 mt-1">{{ $plan['desc'] }}</p>
                     </div>
                     <div class="mb-8">
+                        @if($plan['price'])
                         <span class="text-5xl font-extrabold text-gray-900">{{ $plan['price'] }}&euro;</span>
                         <span class="text-base text-gray-500"> /mois</span>
+                        @else
+                        <span class="text-3xl font-extrabold text-gray-900">Sur devis</span>
+                        @endif
                     </div>
 
                     <div class="flex-1 space-y-6">
