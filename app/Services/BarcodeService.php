@@ -40,7 +40,7 @@ class BarcodeService
                 $response = Http::timeout(5)->get("{$baseUrl}{$ean}.json");
                 if ($response->ok()) {
                     $data = $response->json();
-                    if (($data['status'] ?? 0) == 1 && !empty($data['product'])) {
+                    if (($data['status'] ?? 0) == 1 && ! empty($data['product'])) {
                         return $data['product'];
                     }
                 }
@@ -52,12 +52,13 @@ class BarcodeService
         // Fallback: UPC ItemDB (free API, covers many industrial products)
         try {
             $response = Http::timeout(5)
-                ->get("https://api.upcitemdb.com/prod/trial/lookup", ['upc' => $ean]);
+                ->get('https://api.upcitemdb.com/prod/trial/lookup', ['upc' => $ean]);
             if ($response->ok()) {
                 $data = $response->json();
                 $items = $data['items'] ?? [];
-                if (!empty($items[0])) {
+                if (! empty($items[0])) {
                     $item = $items[0];
+
                     return [
                         'product_name' => $item['title'] ?? null,
                         'brands' => $item['brand'] ?? null,
@@ -124,7 +125,7 @@ class BarcodeService
     public function estimateQuantity(array $product, string $unite): ?float
     {
         $quantity = $product['quantity'] ?? $product['product_quantity'] ?? null;
-        if (!$quantity) {
+        if (! $quantity) {
             return null;
         }
 
@@ -139,7 +140,7 @@ class BarcodeService
             $qty = $qty / 1000;
         }
         // Convert g to kg
-        if ($unite === 'kg' && str_contains($qtyStr, 'g') && !str_contains($qtyStr, 'kg')) {
+        if ($unite === 'kg' && str_contains($qtyStr, 'g') && ! str_contains($qtyStr, 'kg')) {
             $qty = $qty / 1000;
         }
 

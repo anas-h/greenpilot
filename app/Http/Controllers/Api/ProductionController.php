@@ -231,11 +231,11 @@ class ProductionController extends Controller
         ]);
 
         $garageId = $request->current_garage->id;
-        $service = new \App\Services\BarcodeService();
+        $service = new \App\Services\BarcodeService;
 
         $product = $service->lookupProduct($request->input('ean'));
 
-        if (!$product) {
+        if (! $product) {
             return response()->json([
                 'found' => false,
                 'message' => 'Produit non trouve dans la base de donnees.',
