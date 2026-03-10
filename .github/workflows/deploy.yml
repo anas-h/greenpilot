@@ -23,8 +23,8 @@ jobs:
             git pull origin main
 
             # Rebuild and restart containers
-            docker compose -f docker-compose.prod.yml build --no-cache app
-            docker compose -f docker-compose.prod.yml up -d
+            docker compose -f docker-compose.prod.yml build app
+            docker compose -f docker-compose.prod.yml up -d --force-recreate app queue scheduler
 
             # Run migrations
             docker exec greenpilot-app php artisan migrate --force
