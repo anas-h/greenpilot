@@ -97,7 +97,7 @@ class ProductionTest extends TestCase
 
         $response = $this->actingAsAdmin()
             ->postJson('/api/productions/validate', [
-                'production_ids' => [$productionId],
+                'ids' => [$productionId],
             ], $this->withGarageHeader());
 
         $response->assertOk();
@@ -106,6 +106,7 @@ class ProductionTest extends TestCase
     public function test_mecanicien_can_create_production(): void
     {
         $mecanicien = $this->createUser($this->entreprise, $this->garage, 'mecanicien');
+        $mecanicien->garages()->attach($this->garage->id);
 
         $response = $this->actingAs($mecanicien)
             ->postJson('/api/productions', [

@@ -27,52 +27,52 @@ class MappingOperationSeeder extends Seeder
     {
         $mappings = [
             [
-                'nom_operation' => 'Vidange moteur',
+                'mot_cle' => 'Vidange moteur',
                 'code_dechet' => '13 02 05*',
                 'quantite_defaut' => 5,
             ],
             [
-                'nom_operation' => 'Vidange boite',
+                'mot_cle' => 'Vidange boite',
                 'code_dechet' => '13 02 06*',
                 'quantite_defaut' => 2,
             ],
             [
-                'nom_operation' => 'Filtre a huile',
+                'mot_cle' => 'Filtre a huile',
                 'code_dechet' => '16 01 07*',
                 'quantite_defaut' => 0.5,
             ],
             [
-                'nom_operation' => 'Filtre a carburant',
+                'mot_cle' => 'Filtre a carburant',
                 'code_dechet' => '16 01 07*',
                 'quantite_defaut' => 0.3,
             ],
             [
-                'nom_operation' => 'Remplacement batterie',
+                'mot_cle' => 'Remplacement batterie',
                 'code_dechet' => '16 06 01*',
                 'quantite_defaut' => 1,
             ],
             [
-                'nom_operation' => 'Remplacement pneu',
+                'mot_cle' => 'Remplacement pneu',
                 'code_dechet' => '16 01 03',
                 'quantite_defaut' => 1,
             ],
             [
-                'nom_operation' => 'Purge liquide de frein',
+                'mot_cle' => 'Purge liquide de frein',
                 'code_dechet' => '16 01 13*',
                 'quantite_defaut' => 0.5,
             ],
             [
-                'nom_operation' => 'Vidange liquide de refroidissement',
+                'mot_cle' => 'Vidange liquide de refroidissement',
                 'code_dechet' => '16 01 14*',
                 'quantite_defaut' => 5,
             ],
             [
-                'nom_operation' => 'Recharge climatisation',
+                'mot_cle' => 'Recharge climatisation',
                 'code_dechet' => '14 06 01*',
                 'quantite_defaut' => 0.2,
             ],
             [
-                'nom_operation' => 'Remplacement plaquettes de frein',
+                'mot_cle' => 'Remplacement plaquettes de frein',
                 'code_dechet' => '16 01 12',
                 'quantite_defaut' => 1,
             ],
@@ -91,7 +91,7 @@ class MappingOperationSeeder extends Seeder
             MappingOperation::updateOrCreate(
                 [
                     'garage_id' => $garageId,
-                    'nom_operation' => $mapping['nom_operation'],
+                    'mot_cle' => $mapping['mot_cle'],
                 ],
                 [
                     'type_dechet_id' => $typeDechet->id,

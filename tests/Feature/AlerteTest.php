@@ -42,7 +42,7 @@ class AlerteTest extends TestCase
             ->getJson('/api/alertes/count', $this->withGarageHeader());
 
         $response->assertOk()
-            ->assertJsonPath('count', 1);
+            ->assertJsonPath('total', 1);
     }
 
     public function test_can_resolve_alerte(): void

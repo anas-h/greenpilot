@@ -78,11 +78,11 @@ class MappingOperationController extends Controller
     /**
      * Update a mapping.
      */
-    public function update(Request $request, MappingOperation $mappingOperation): JsonResponse
+    public function update(Request $request, MappingOperation $mapping): JsonResponse
     {
         $garageId = $request->header('X-Garage-Id');
 
-        if ($mappingOperation->garage_id != $garageId) {
+        if ($mapping->garage_id != $garageId) {
             return response()->json(['message' => 'Non autorise.'], 403);
         }
 
@@ -96,10 +96,10 @@ class MappingOperationController extends Controller
         ]);
 
         // Check duplicate mot_cle if changed
-        if (isset($validated['mot_cle']) && $validated['mot_cle'] !== $mappingOperation->mot_cle) {
+        if (isset($validated['mot_cle']) && $validated['mot_cle'] !== $mapping->mot_cle) {
             $existing = MappingOperation::where('garage_id', $garageId)
                 ->where('mot_cle', $validated['mot_cle'])
-                ->where('id', '!=', $mappingOperation->id)
+                ->where('id', '!=', $mapping->id)
                 ->first();
 
             if ($existing) {
@@ -109,24 +109,24 @@ class MappingOperationController extends Controller
             }
         }
 
-        $mappingOperation->update($validated);
-        $mappingOperation->load('typeDechet');
+        $mapping->update($validated);
+        $mapping->load('typeDechet');
 
-        return response()->json($mappingOperation);
+        return response()->json($mapping);
     }
 
     /**
      * Delete a mapping.
      */
-    public function destroy(Request $request, MappingOperation $mappingOperation): JsonResponse
+    public function destroy(Request $request, MappingOperation $mapping): JsonResponse
     {
         $garageId = $request->header('X-Garage-Id');
 
-        if ($mappingOperation->garage_id != $garageId) {
+        if ($mapping->garage_id != $garageId) {
             return response()->json(['message' => 'Non autorise.'], 403);
         }
 
-        $mappingOperation->delete();
+        $mapping->delete();
 
         return response()->json(null, 204);
     }

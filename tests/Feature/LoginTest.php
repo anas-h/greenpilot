@@ -59,7 +59,9 @@ class LoginTest extends TestCase
     {
         $this->setupTestEnvironment();
 
-        $response = $this->actingAsAdmin()
+        $token = $this->admin->createToken('auth_token')->plainTextToken;
+
+        $response = $this->withHeader('Authorization', "Bearer {$token}")
             ->postJson('/api/auth/logout');
 
         $response->assertOk();

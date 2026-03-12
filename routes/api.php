@@ -76,7 +76,7 @@ Route::middleware(['auth:sanctum', 'entreprise.active'])->group(function () {
             Route::get('/dashboard/economie', [DashboardController::class, 'economie']);
 
             // Types de dechets
-            Route::apiResource('types-dechets', TypeDechetController::class);
+            Route::apiResource('types-dechets', TypeDechetController::class)->parameters(['types-dechets' => 'typeDechet']);
             Route::post('/types-dechets/{typeDechet}/toggle', [TypeDechetController::class, 'toggleActivation']);
 
             // Conteneurs

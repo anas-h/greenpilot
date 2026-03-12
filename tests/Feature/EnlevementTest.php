@@ -87,7 +87,7 @@ class EnlevementTest extends TestCase
         // Complete
         $response = $this->actingAsAdmin()
             ->postJson("/api/enlevements/{$enlevementId}/complete", [
-                'date_effective' => now()->toIso8601String(),
+                'date_effective' => now()->toDateString(),
                 'lignes' => [
                     ['ligne_id' => $ligneId, 'quantite_effective' => 300],
                 ],
@@ -116,7 +116,7 @@ class EnlevementTest extends TestCase
             ], $this->withGarageHeader());
 
         $response = $this->actingAsAdmin()
-            ->getJson('/api/enlevements-calendrier', $this->withGarageHeader());
+            ->getJson('/api/enlevements/calendrier', $this->withGarageHeader());
 
         $response->assertOk();
     }

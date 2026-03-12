@@ -199,7 +199,7 @@ class ProductionController extends Controller
     /**
      * Validate one or multiple productions.
      */
-    public function validate(Request $request): JsonResponse
+    public function validateProductions(Request $request): JsonResponse
     {
         $request->validate([
             'ids' => 'required|array|min:1',

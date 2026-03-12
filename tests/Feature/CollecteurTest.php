@@ -37,9 +37,13 @@ class CollecteurTest extends TestCase
             ->postJson('/api/collecteurs', [
                 'raison_sociale' => 'Nouveau Collecteur',
                 'siret' => '66666666666666',
+                'adresse' => '10 rue du Collecteur',
+                'code_postal' => '75010',
+                'ville' => 'Paris',
                 'numero_autorisation' => 'AUTH-NEW',
                 'date_validite_autorisation' => now()->addYear()->toDateString(),
                 'autorisation_adr' => true,
+                'numero_adr' => 'ADR-12345',
             ], $this->withGarageHeader());
 
         $response->assertStatus(201);

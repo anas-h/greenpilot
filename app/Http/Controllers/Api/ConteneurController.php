@@ -141,14 +141,10 @@ class ConteneurController extends Controller
     /**
      * Find conteneur by QR code, return with type info.
      */
-    public function scan(Request $request): JsonResponse
+    public function scan(Request $request, string $codeQr): JsonResponse
     {
-        $request->validate([
-            'code_qr' => 'required|string',
-        ]);
-
         $conteneur = Conteneur::with('typeDechet', 'garage')
-            ->where('code_qr', $request->code_qr)
+            ->where('code_qr', $codeQr)
             ->where('actif', true)
             ->first();
 

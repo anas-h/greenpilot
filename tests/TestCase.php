@@ -34,7 +34,11 @@ abstract class TestCase extends BaseTestCase
             'adresse' => '1 rue du Test',
             'code_postal' => '75001',
             'ville' => 'Paris',
-            'plan' => 'gratuit',
+            'plan' => 'standard',
+            'actif' => true,
+            'trial_ends_at' => now()->addDays(14),
+            'max_garages' => 99,
+            'max_users' => 99,
         ], $attrs));
     }
 

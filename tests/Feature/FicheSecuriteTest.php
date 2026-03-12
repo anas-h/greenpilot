@@ -192,7 +192,7 @@ class FicheSecuriteTest extends TestCase
         FicheSecurite::create([
             'garage_id' => $this->garage->id,
             'type_dechet_id' => $this->typeDechet->id,
-            'nom_produit' => 'Huile moteur usagee',
+            'nom_produit' => 'Produit Alpha Specifique',
             'fournisseur' => 'Total',
             'fichier_path' => 'fds/1/test.pdf',
             'date_emission' => '2024-01-01',
@@ -212,7 +212,7 @@ class FicheSecuriteTest extends TestCase
         ]);
 
         $response = $this->actingAsAdmin()
-            ->getJson('/api/fiches-securite?search=Huile', $this->withGarageHeader());
+            ->getJson('/api/fiches-securite?search=Alpha', $this->withGarageHeader());
 
         $response->assertOk()
             ->assertJsonCount(1, 'data');

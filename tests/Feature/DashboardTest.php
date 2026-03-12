@@ -61,6 +61,7 @@ class DashboardTest extends TestCase
             'unite' => 'kg',
             'date_production' => now(),
             'source_type' => 'manuelle',
+            'employe_id' => $this->admin->id,
         ]);
 
         Production::create([
@@ -70,6 +71,7 @@ class DashboardTest extends TestCase
             'unite' => 'kg',
             'date_production' => now()->subMonths(2),
             'source_type' => 'manuelle',
+            'employe_id' => $this->admin->id,
         ]);
 
         $response = $this->actingAsAdmin()

@@ -22,9 +22,10 @@ class TypeDechetTest extends TestCase
         TypeDechet::create([
             'entreprise_id' => $this->entreprise->id,
             'denomination' => 'Dechet custom test',
+            'code_europeen' => '99 99 99',
             'dangereux' => false,
             'unite_mesure' => 'kg',
-            'categorie' => 'Divers',
+            'categorie' => 'autre',
         ]);
 
         $response = $this->actingAsAdmin()
@@ -58,7 +59,7 @@ class TypeDechetTest extends TestCase
                 'denomination' => 'Liquide de refroidissement usage',
                 'dangereux' => true,
                 'unite_mesure' => 'litres',
-                'categorie' => 'Liquides',
+                'categorie' => 'fluide',
                 'code_europeen' => '16 01 14',
                 'consignes_stockage' => 'Stocker dans un conteneur etanche',
             ], $this->withGarageHeader());
@@ -130,9 +131,10 @@ class TypeDechetTest extends TestCase
         $customType = TypeDechet::create([
             'entreprise_id' => $this->entreprise->id,
             'denomination' => 'Type custom original',
+            'code_europeen' => '99 99 98',
             'dangereux' => false,
             'unite_mesure' => 'kg',
-            'categorie' => 'Divers',
+            'categorie' => 'autre',
         ]);
 
         $response = $this->actingAsAdmin()
@@ -151,9 +153,10 @@ class TypeDechetTest extends TestCase
         $customType = TypeDechet::create([
             'entreprise_id' => $this->entreprise->id,
             'denomination' => 'Type a supprimer',
+            'code_europeen' => '99 99 97',
             'dangereux' => false,
             'unite_mesure' => 'kg',
-            'categorie' => 'Divers',
+            'categorie' => 'autre',
         ]);
 
         $response = $this->actingAsAdmin()
@@ -203,9 +206,10 @@ class TypeDechetTest extends TestCase
         $otherType = TypeDechet::create([
             'entreprise_id' => $otherEntreprise->id,
             'denomination' => 'Other enterprise type',
+            'code_europeen' => '99 99 96',
             'dangereux' => false,
             'unite_mesure' => 'kg',
-            'categorie' => 'Divers',
+            'categorie' => 'autre',
         ]);
 
         $response = $this->actingAsAdmin()

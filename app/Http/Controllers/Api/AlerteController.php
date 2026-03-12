@@ -98,7 +98,6 @@ class AlerteController extends Controller
             $alerte = Alerte::where('garage_id', $garageId)->findOrFail($request->input('id'));
             $alerte->update([
                 'lue' => true,
-                'date_lecture' => now(),
             ]);
 
             return response()->json([
@@ -112,7 +111,6 @@ class AlerteController extends Controller
             ->where('lue', false)
             ->update([
                 'lue' => true,
-                'date_lecture' => now(),
             ]);
 
         return response()->json([
@@ -140,7 +138,6 @@ class AlerteController extends Controller
             'date_resolution' => now(),
             'resolue_par' => Auth::id(),
             'lue' => true,
-            'date_lecture' => $alerte->date_lecture ?? now(),
         ]);
 
         return response()->json([

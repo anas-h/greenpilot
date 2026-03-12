@@ -86,7 +86,6 @@ class BordereauController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'type_bsd' => 'required|in:BSDD,BSDA,BSVHU',
-            'type_dechet_id' => 'required|exists:types_dechets,id',
             'code_dechet' => 'required|string|max:20',
             'denomination_dechet' => 'required|string|max:255',
             'quantite' => 'nullable|numeric|min:0',
@@ -166,7 +165,6 @@ class BordereauController extends Controller
 
         $validator = Validator::make($request->all(), [
             'type_bsd' => 'sometimes|in:BSDD,BSDA,BSVHU',
-            'type_dechet_id' => 'sometimes|exists:types_dechets,id',
             'code_dechet' => 'sometimes|string|max:20',
             'denomination_dechet' => 'sometimes|string|max:255',
             'quantite' => 'nullable|numeric|min:0',

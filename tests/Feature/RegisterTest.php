@@ -16,6 +16,7 @@ class RegisterTest extends TestCase
             'password_confirmation' => 'password123',
             'raison_sociale' => 'Garage Dupont',
             'siret' => '98765432109876',
+            'plan' => 'standard',
         ]);
 
         $response->assertStatus(201)
@@ -35,6 +36,7 @@ class RegisterTest extends TestCase
             'password_confirmation' => 'password123',
             'raison_sociale' => 'Garage Dupont',
             'siret' => '123', // too short
+            'plan' => 'standard',
         ]);
 
         $response->assertStatus(422)
@@ -53,6 +55,7 @@ class RegisterTest extends TestCase
             'password_confirmation' => 'password123',
             'raison_sociale' => 'Garage Autre',
             'siret' => '99999999999999',
+            'plan' => 'standard',
         ]);
 
         $response->assertStatus(422)

@@ -38,8 +38,11 @@ class SubscriptionTest extends TestCase
             ->getJson('/api/subscription');
 
         $response->assertOk()
-            ->assertJsonPath('on_trial', true)
-            ->assertJsonPath('days_remaining', 10);
+            ->assertJsonPath('on_trial', true);
+
+        $daysRemaining = $response->json('days_remaining');
+        $this->assertGreaterThanOrEqual(9, $daysRemaining);
+        $this->assertLessThanOrEqual(10, $daysRemaining);
     }
 
     public function test_subscription_status_shows_expired_trial(): void

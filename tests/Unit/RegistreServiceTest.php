@@ -22,7 +22,7 @@ class RegistreServiceTest extends TestCase
 
     public function test_build_registre_returns_array(): void
     {
-        $result = $this->service->buildRegistre($this->garage->id);
+        $result = $this->service->buildRegistre(['garage_id' => $this->garage->id]);
 
         $this->assertIsArray($result);
     }
@@ -57,7 +57,7 @@ class RegistreServiceTest extends TestCase
             'unite' => 'kg',
         ]);
 
-        $result = $this->service->buildRegistre($this->garage->id);
+        $result = $this->service->buildRegistre(['garage_id' => $this->garage->id]);
 
         $this->assertNotEmpty($result);
         $this->assertEquals('Registre Collecte', $result[0]['collecteur'] ?? $result[0]['collecteur_raison_sociale'] ?? '');
@@ -65,10 +65,10 @@ class RegistreServiceTest extends TestCase
 
     public function test_build_registre_filters_by_date(): void
     {
-        $result = $this->service->buildRegistre(
-            $this->garage->id,
-            ['date_debut' => now()->addYear()->toDateString()]
-        );
+        $result = $this->service->buildRegistre([
+            'garage_id' => $this->garage->id,
+            'date_debut' => now()->addYear()->toDateString(),
+        ]);
 
         $this->assertEmpty($result);
     }

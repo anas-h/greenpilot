@@ -14,7 +14,8 @@ class UserRequest extends FormRequest
 
     public function rules(): array
     {
-        $userId = $this->route('user')?->id ?? $this->route('managedUser')?->id;
+        $routeUser = $this->route('user');
+        $userId = $routeUser instanceof \App\Models\User ? $routeUser->id : $routeUser;
 
         return [
             'nom' => 'required|string|max:255',

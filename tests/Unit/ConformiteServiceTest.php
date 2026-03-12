@@ -47,7 +47,7 @@ class ConformiteServiceTest extends TestCase
         $this->assertEquals(0, $result['details']['trackdechets']['score']);
     }
 
-    public function test_trackdechets_score_is_100_when_configured(): void
+    public function test_trackdechets_score_is_50_when_configured_but_not_verified(): void
     {
         ConfigTrackdechets::create([
             'entreprise_id' => $this->entreprise->id,
@@ -58,7 +58,8 @@ class ConformiteServiceTest extends TestCase
 
         $result = $this->service->calculateScore($this->garage->id);
 
-        $this->assertEquals(100, $result['details']['trackdechets']['score']);
+        // Active but not verified (siret_verifie is not set) => score is 50
+        $this->assertEquals(50, $result['details']['trackdechets']['score']);
     }
 
     public function test_expired_collecteur_lowers_autorisations_score(): void

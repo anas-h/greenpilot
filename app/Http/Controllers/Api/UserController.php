@@ -56,27 +56,27 @@ class UserController extends Controller
         return response()->json(['data' => $user->load('roles')]);
     }
 
-    public function update(UserRequest $request, User $managedUser): JsonResponse
+    public function update(UserRequest $request, User $user): JsonResponse
     {
-        $this->authorizeUser($request, $managedUser);
+        $this->authorizeUser($request, $user);
 
         $data = $request->validated();
         if (empty($data['password'])) {
             unset($data['password']);
         }
 
-        $managedUser->update($data);
+        $user->update($data);
 
         if ($request->has('role')) {
-            $managedUser->syncRoles([$request->role]);
+            $user->syncRoles([$request->role]);
         }
 
         // Sync garages via pivot table
         if ($request->has('garages_ids')) {
-            $managedUser->garages()->sync($request->garages_ids);
+            $user->garages()->sync($request->garages_ids);
         }
 
-        return response()->json(['data' => $managedUser->load('garages')]);
+        return response()->json(['data' => $user->load('garages')]);
     }
 
     public function destroy(Request $request, User $user): JsonResponse

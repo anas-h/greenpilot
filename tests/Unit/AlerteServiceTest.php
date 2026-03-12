@@ -89,6 +89,7 @@ class AlerteServiceTest extends TestCase
             'capacite' => 100,
             'unite' => 'litres',
             'niveau_actuel' => 50,
+            'date_mise_en_service' => now()->subMonths(11),
             'date_dernier_enlevement' => now()->subMonths(11),
             'actif' => true,
         ]);

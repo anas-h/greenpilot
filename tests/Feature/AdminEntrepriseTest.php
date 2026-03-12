@@ -169,6 +169,9 @@ class AdminEntrepriseTest extends TestCase
             ->postJson('/api/admin/entreprises', [
                 'raison_sociale' => 'Trial Entreprise',
                 'siret' => '55555555555555',
+                'adresse' => '5 rue du Trial',
+                'code_postal' => '75003',
+                'ville' => 'Paris',
             ]);
 
         $response->assertStatus(201);
@@ -269,6 +272,9 @@ class AdminEntrepriseTest extends TestCase
         $response = $this->actingAs($this->superAdmin)
             ->postJson("/api/admin/entreprises/{$this->entreprise->id}/garages", [
                 'nom' => 'Grand Garage',
+                'adresse' => '1 rue du Grand',
+                'code_postal' => '75001',
+                'ville' => 'Paris',
                 'surface_atelier' => 6000,
             ]);
 
@@ -280,6 +286,9 @@ class AdminEntrepriseTest extends TestCase
         $response = $this->actingAs($this->superAdmin)
             ->postJson("/api/admin/entreprises/{$this->entreprise->id}/garages", [
                 'nom' => 'Moyen Garage',
+                'adresse' => '2 rue du Moyen',
+                'code_postal' => '75002',
+                'ville' => 'Paris',
                 'surface_atelier' => 3000,
             ]);
 
@@ -291,6 +300,9 @@ class AdminEntrepriseTest extends TestCase
         $response = $this->actingAs($this->superAdmin)
             ->postJson("/api/admin/entreprises/{$this->entreprise->id}/garages", [
                 'nom' => 'Petit Garage',
+                'adresse' => '3 rue du Petit',
+                'code_postal' => '75003',
+                'ville' => 'Paris',
                 'surface_atelier' => 500,
             ]);
 

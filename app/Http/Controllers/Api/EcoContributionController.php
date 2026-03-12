@@ -16,11 +16,10 @@ class EcoContributionController extends Controller
     {
         $garageId = $request->header('X-Garage-Id');
 
-        $query = EcoContribution::where('garage_id', $garageId)
-            ->with('filiere');
+        $query = EcoContribution::where('garage_id', $garageId);
 
-        if ($request->filled('filiere_id')) {
-            $query->where('filiere_id', $request->filiere_id);
+        if ($request->filled('filiere')) {
+            $query->where('filiere', $request->filiere);
         }
 
         if ($request->filled('annee')) {

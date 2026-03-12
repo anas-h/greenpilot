@@ -71,6 +71,7 @@ class BordereauTest extends TestCase
             'transporteur_raison_sociale' => 'Transport',
             'destination_siret' => '33333333333333',
             'destination_raison_sociale' => 'Centre',
+            'code_traitement' => 'R9',
             'date_emission' => now(),
             'cree_par' => $this->admin->id,
         ]);
@@ -99,6 +100,7 @@ class BordereauTest extends TestCase
             'transporteur_raison_sociale' => 'Transport',
             'destination_siret' => '33333333333333',
             'destination_raison_sociale' => 'Centre',
+            'code_traitement' => 'R9',
             'date_emission' => now(),
             'cree_par' => $this->admin->id,
         ]);

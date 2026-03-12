@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\PriseEnChargePneu;
+use App\Models\PriseChargePneu;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -16,14 +16,14 @@ class PneuParticulierController extends Controller
     {
         $garageId = $request->header('X-Garage-Id');
 
-        $query = PriseEnChargePneu::where('garage_id', $garageId)
-            ->with('user');
+        $query = PriseChargePneu::where('garage_id', $garageId)
+            ->with('creePar');
 
         if ($request->filled('annee')) {
-            $query->whereYear('date_prise_en_charge', $request->annee);
+            $query->whereYear('date', $request->annee);
         }
 
-        $prises = $query->orderByDesc('date_prise_en_charge')
+        $prises = $query->orderByDesc('date')
             ->paginate($request->get('per_page', 20));
 
         return response()->json($prises);
@@ -45,7 +45,7 @@ class PneuParticulierController extends Controller
             'types_pneus' => 'required|array|min:1',
             'types_pneus.*.type' => 'required|string|in:vl,utilitaire,moto,poids_lourd',
             'types_pneus.*.quantite' => 'required|integer|min:1',
-            'date_prise_en_charge' => 'nullable|date',
+            'date' => 'nullable|date',
             'notes' => 'nullable|string|max:1000',
         ]);
 
@@ -70,7 +70,7 @@ class PneuParticulierController extends Controller
             ], 422);
         }
 
-        $prise = PriseEnChargePneu::create([
+        $prise = PriseChargePneu::create([
             'garage_id' => $garageId,
             'user_id' => $request->user()->id,
             'nom_particulier' => $validated['nom_particulier'],
@@ -78,7 +78,7 @@ class PneuParticulierController extends Controller
             'telephone' => $validated['telephone'] ?? null,
             'nombre_pneus' => $validated['nombre_pneus'],
             'types_pneus' => $validated['types_pneus'],
-            'date_prise_en_charge' => $validated['date_prise_en_charge'] ?? now()->toDateString(),
+            'date' => $validated['date'] ?? now()->toDateString(),
             'notes' => $validated['notes'] ?? null,
         ]);
 
@@ -93,13 +93,13 @@ class PneuParticulierController extends Controller
         $garageId = $request->header('X-Garage-Id');
         $annee = $request->get('annee', now()->year);
 
-        $totalPrises = PriseEnChargePneu::where('garage_id', $garageId)
-            ->whereYear('date_prise_en_charge', $annee)
+        $totalPrises = PriseChargePneu::where('garage_id', $garageId)
+            ->whereYear('date', $annee)
             ->count();
 
-        $totalPneus = PriseEnChargePneu::where('garage_id', $garageId)
-            ->whereYear('date_prise_en_charge', $annee)
-            ->sum('nombre_pneus');
+        $totalPneus = PriseChargePneu::where('garage_id', $garageId)
+            ->whereYear('date', $annee)
+            ->sum('quantite');
 
         return response()->json([
             'annee' => (int) $annee,
