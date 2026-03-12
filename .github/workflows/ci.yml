@@ -87,6 +87,11 @@ jobs:
       - name: Generate app key
         run: php artisan key:generate
 
+      - name: Build vitrine assets
+        run: |
+          npm ci
+          npm run build
+
       - name: Run migrations
         env:
           DB_CONNECTION: pgsql
