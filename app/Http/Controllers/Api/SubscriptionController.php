@@ -61,13 +61,43 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * Create an incomplete Stripe subscription and return
-     * the PaymentIntent client_secret for the Payment Element.
+     * Create a SetupIntent so the frontend can collect payment method.
+     */
+    public function setupIntent(Request $request): JsonResponse
+    {
+        $entreprise = $request->user()->entreprise;
+
+        // Ensure the entreprise is a Stripe customer
+        if (! $entreprise->stripe_id) {
+            $entreprise->createAsStripeCustomer([
+                'email' => $request->user()->email,
+                'name' => $entreprise->raison_sociale,
+            ]);
+        }
+
+        try {
+            $intent = $entreprise->createSetupIntent([
+                'payment_method_types' => ['card'],
+            ]);
+
+            return response()->json([
+                'client_secret' => $intent->client_secret,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Erreur Stripe: '.$e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Create subscription after payment method has been collected via SetupIntent.
      */
     public function createSubscription(Request $request): JsonResponse
     {
         $request->validate([
             'plan' => 'required|in:standard,premium',
+            'payment_method' => 'required|string',
         ]);
 
         $entreprise = $request->user()->entreprise;
@@ -90,41 +120,20 @@ class SubscriptionController extends Controller
             ]);
         }
 
-        Stripe::setApiKey(config('cashier.secret'));
-
         try {
-            // Create Stripe subscription with incomplete payment
-            // Expand both payment_intent and pending_setup_intent to handle all cases
-            $stripeSubscription = StripeSubscription::create([
-                'customer' => $entreprise->stripe_id,
-                'items' => [['price' => $priceId]],
-                'payment_behavior' => 'default_incomplete',
-                'payment_settings' => [
-                    'save_default_payment_method' => 'on_subscription',
-                ],
-                'expand' => ['latest_invoice.payment_intent', 'pending_setup_intent'],
-            ]);
+            // Set the default payment method
+            $entreprise->updateDefaultPaymentMethod($request->payment_method);
 
-            // Stripe may return a PaymentIntent (non-zero invoice) or a SetupIntent
-            // ($0 invoice / trial / certain payment_settings configurations)
-            $paymentIntent = $stripeSubscription->latest_invoice->payment_intent ?? null;
-            $setupIntent = $stripeSubscription->pending_setup_intent ?? null;
+            // Create the subscription using the default payment method
+            $subscription = $entreprise->newSubscription('default', $priceId)->create($request->payment_method);
 
-            $clientSecret = $paymentIntent?->client_secret ?? $setupIntent?->client_secret ?? null;
-            $type = $paymentIntent ? 'payment_intent' : 'setup_intent';
-
-            if (! $clientSecret) {
-                $stripeSubscription->cancel();
-
-                return response()->json([
-                    'message' => 'Impossible de creer le paiement. Veuillez contacter le support.',
-                ], 500);
-            }
+            // Update local plan and limits
+            $limits = $this->planLimits($request->plan);
+            $entreprise->update(array_merge(['plan' => $request->plan], $limits));
 
             return response()->json([
-                'subscription_id' => $stripeSubscription->id,
-                'client_secret' => $clientSecret,
-                'type' => $type,
+                'message' => 'Abonnement active avec succes.',
+                'plan' => $request->plan,
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -134,46 +143,22 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * Called after payment is confirmed on the frontend.
-     * Syncs the Stripe subscription with the local Cashier model.
+     * Confirm subscription after Stripe Checkout (legacy).
      */
     public function confirmSubscription(Request $request): JsonResponse
     {
         $request->validate([
-            'subscription_id' => 'required|string',
             'plan' => 'required|in:standard,premium',
         ]);
 
         $entreprise = $request->user()->entreprise;
 
-        Stripe::setApiKey(config('cashier.secret'));
+        $subscription = $entreprise->subscription('default');
 
-        // Retrieve the subscription from Stripe to verify it's active
-        $stripeSubscription = StripeSubscription::retrieve($request->subscription_id);
-
-        if (! in_array($stripeSubscription->status, ['active', 'trialing'])) {
+        if (! $subscription || ! $subscription->valid()) {
             return response()->json([
-                'message' => 'Le paiement n\'a pas encore ete confirme.',
+                'message' => 'Aucun abonnement actif trouve.',
             ], 422);
-        }
-
-        // Create the local Cashier subscription record if it doesn't exist
-        $localSubscription = $entreprise->subscriptions()->where('stripe_id', $stripeSubscription->id)->first();
-
-        if (! $localSubscription) {
-            $entreprise->subscriptions()->create([
-                'type' => 'default',
-                'stripe_id' => $stripeSubscription->id,
-                'stripe_status' => $stripeSubscription->status,
-                'stripe_price' => $stripeSubscription->items->data[0]->price->id ?? null,
-                'quantity' => 1,
-                'trial_ends_at' => null,
-                'ends_at' => null,
-            ]);
-        } else {
-            $localSubscription->update([
-                'stripe_status' => $stripeSubscription->status,
-            ]);
         }
 
         // Update local plan and limits

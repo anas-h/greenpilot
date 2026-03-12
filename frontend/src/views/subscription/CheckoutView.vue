@@ -399,8 +399,6 @@ const errorMessage = ref('')
 
 let stripe = null
 let elements = null
-let stripeSubscriptionId = null
-let intentType = null // 'payment_intent' or 'setup_intent'
 
 onMounted(async () => {
   if (!['standard', 'premium'].includes(selectedPlan.value)) {
@@ -422,26 +420,24 @@ async function initializePayment() {
   errorMessage.value = ''
 
   try {
-    // 1. Get Stripe public key
-    const publicKey = await subscriptionStore.getConfig()
+    // 1. Get Stripe public key and SetupIntent client_secret in parallel
+    const [publicKey, clientSecret] = await Promise.all([
+      subscriptionStore.getConfig(),
+      subscriptionStore.getSetupIntent(),
+    ])
+
     if (!publicKey) {
       throw new Error('Configuration Stripe non disponible.')
     }
 
-    // 2. Create an incomplete Stripe subscription → returns client_secret (PaymentIntent or SetupIntent)
-    const result = await subscriptionStore.createSubscription(selectedPlan.value)
-    stripeSubscriptionId = result.subscription_id
-    intentType = result.type // 'payment_intent' or 'setup_intent'
-    const clientSecret = result.client_secret
-
-    // 3. Initialize Stripe
+    // 2. Initialize Stripe
     stripe = await loadStripe(publicKey)
     if (!stripe) {
       throw new Error('Impossible de charger Stripe.')
     }
 
-    // 4. Create Elements with the client_secret (works for both PaymentIntent and SetupIntent)
-    const elementsOptions = {
+    // 3. Create Elements with the SetupIntent client_secret
+    elements = stripe.elements({
       clientSecret,
       appearance: {
         theme: 'stripe',
@@ -456,10 +452,9 @@ async function initializePayment() {
         },
       },
       locale: 'fr',
-    }
-    elements = stripe.elements(elementsOptions)
+    })
 
-    // 5. Mount Payment Element
+    // 4. Mount Payment Element
     await nextTick()
     const paymentElement = elements.create('payment')
     paymentElement.mount('#payment-element')
@@ -493,7 +488,7 @@ async function handlePayment() {
   errorMessage.value = ''
 
   try {
-    // Submit the payment element form (validates fields)
+    // 1. Submit the payment element form (validates fields)
     const { error: submitError } = await elements.submit()
     if (submitError) {
       errorMessage.value = submitError.message || 'Erreur de validation.'
@@ -501,50 +496,30 @@ async function handlePayment() {
       return
     }
 
-    // Confirm the intent (PaymentIntent or SetupIntent depending on what Stripe created)
-    let confirmError, confirmed
-
-    if (intentType === 'setup_intent') {
-      const result = await stripe.confirmSetup({
-        elements,
-        confirmParams: {
-          return_url: window.location.origin + '/abonnement?success=1',
-        },
-        redirect: 'if_required',
-      })
-      confirmError = result.error
-      confirmed = result.setupIntent && result.setupIntent.status === 'succeeded'
-    } else {
-      const result = await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-          return_url: window.location.origin + '/abonnement?success=1',
-        },
-        redirect: 'if_required',
-      })
-      confirmError = result.error
-      confirmed = result.paymentIntent && (result.paymentIntent.status === 'succeeded' || result.paymentIntent.status === 'processing')
-    }
+    // 2. Confirm the SetupIntent to collect the payment method
+    const { error: confirmError, setupIntent } = await stripe.confirmSetup({
+      elements,
+      confirmParams: {
+        return_url: window.location.origin + '/abonnement',
+      },
+      redirect: 'if_required',
+    })
 
     if (confirmError) {
-      errorMessage.value = confirmError.message || 'Erreur lors du paiement.'
+      errorMessage.value = confirmError.message || 'Erreur lors de la validation de la carte.'
       processing.value = false
       return
     }
 
-    if (confirmed) {
-      // Payment/Setup confirmed — sync subscription on backend
-      try {
-        await subscriptionStore.confirmSubscription(stripeSubscriptionId, selectedPlan.value)
-      } catch {
-        // Webhook will handle it if this fails
-      }
+    if (setupIntent && setupIntent.status === 'succeeded') {
+      // 3. Create the subscription on the backend with the payment method
+      await subscriptionStore.createSubscription(selectedPlan.value, setupIntent.payment_method)
       paymentStep.value = 3
     } else {
-      errorMessage.value = 'Le paiement n\'a pas pu etre confirme.'
+      errorMessage.value = 'La validation de la carte n\'a pas pu etre confirmee.'
     }
   } catch (e) {
-    errorMessage.value = e.message || 'Une erreur inattendue est survenue.'
+    errorMessage.value = e.response?.data?.message || e.message || 'Une erreur inattendue est survenue.'
   } finally {
     processing.value = false
   }

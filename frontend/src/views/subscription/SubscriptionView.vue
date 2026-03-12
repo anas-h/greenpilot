@@ -371,12 +371,12 @@
               <div class="mt-4">
                 <v-btn
                   v-if="!subscriptionStore.subscribed"
-                  color="grey"
+                  color="primary"
                   block
                   size="large"
                   rounded="lg"
                   class="text-none"
-                  disabled
+                  :to="{ name: 'checkout', params: { plan: 'standard' } }"
                 >
                   <v-icon start>
                     mdi-lightning-bolt
@@ -421,12 +421,12 @@
             </v-chip>
             <v-chip
               v-else-if="!(subscriptionStore.plan === 'standard' && subscriptionStore.subscribed)"
-              color="warning"
+              color="grey"
               size="x-small"
               variant="flat"
               class="popular-badge"
             >
-              Populaire
+              Sur devis
             </v-chip>
 
             <v-card-text class="pa-5">
@@ -487,9 +487,9 @@
                   disabled
                 >
                   <v-icon start>
-                    mdi-lightning-bolt
+                    mdi-email-outline
                   </v-icon>
-                  Souscrire Premium
+                  Demander un devis
                 </v-btn>
                 <v-btn
                   v-else-if="subscriptionStore.plan === 'standard'"
@@ -502,9 +502,9 @@
                   disabled
                 >
                   <v-icon start>
-                    mdi-arrow-up-bold
+                    mdi-email-outline
                   </v-icon>
-                  Passer en Premium
+                  Demander un devis
                 </v-btn>
               </div>
             </v-card-text>

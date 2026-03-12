@@ -43,6 +43,7 @@ Route::middleware(['auth:sanctum', 'entreprise.active'])->group(function () {
     // Subscription management (always accessible - even in read-only)
     Route::get('/subscription', [SubscriptionController::class, 'status']);
     Route::get('/subscription/config', [SubscriptionController::class, 'config']);
+    Route::post('/subscription/setup-intent', [SubscriptionController::class, 'setupIntent']);
     Route::post('/subscription/create', [SubscriptionController::class, 'createSubscription']);
     Route::post('/subscription/confirm', [SubscriptionController::class, 'confirmSubscription']);
     Route::post('/subscription/checkout', [SubscriptionController::class, 'checkout']);

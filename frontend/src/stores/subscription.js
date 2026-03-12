@@ -32,23 +32,21 @@ export const useSubscriptionStore = defineStore('subscription', () => {
     return data.public_key
   }
 
-  async function createSubscription(plan) {
-    const { data } = await api.post('/subscription/create', { plan })
-    return data
+  async function getSetupIntent() {
+    const { data } = await api.post('/subscription/setup-intent')
+    return data.client_secret
   }
 
-  async function confirmSubscription(subscriptionId, plan) {
-    const { data } = await api.post('/subscription/confirm', {
-      subscription_id: subscriptionId,
-      plan,
-    })
+  async function createSubscription(plan, paymentMethod) {
+    const { data } = await api.post('/subscription/create', { plan, payment_method: paymentMethod })
     await fetchStatus()
     return data
   }
 
-  async function checkout(plan) {
-    const { data } = await api.post('/subscription/checkout', { plan })
-    window.location.href = data.checkout_url
+  async function confirmSubscription(plan) {
+    const { data } = await api.post('/subscription/confirm', { plan })
+    await fetchStatus()
+    return data
   }
 
   async function openPortal() {
@@ -95,9 +93,9 @@ export const useSubscriptionStore = defineStore('subscription', () => {
     pmType,
     fetchStatus,
     getConfig,
+    getSetupIntent,
     createSubscription,
     confirmSubscription,
-    checkout,
     openPortal,
     previewChange,
     changePlan,
