@@ -11,6 +11,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./docker/traefik.yml:/etc/traefik/traefik.yml:ro
       - letsencrypt-data:/letsencrypt
+      - traefik-logs:/var/log/traefik
     networks:
       - greenpilot-network
 
@@ -165,6 +166,8 @@ volumes:
   app-storage:
     driver: local
   app-public:
+    driver: local
+  traefik-logs:
     driver: local
   app-frontend:
     driver: local

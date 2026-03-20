@@ -24,3 +24,12 @@ certificatesResolvers:
       storage: /letsencrypt/acme.json
       httpChallenge:
         entryPoint: web
+
+accessLog:
+  filePath: "/var/log/traefik/access.log"
+  format: common
+  fields:
+    headers:
+      names:
+        User-Agent: keep
+  bufferingSize: 100
